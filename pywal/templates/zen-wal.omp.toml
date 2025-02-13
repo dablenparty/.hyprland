@@ -1,0 +1,102 @@
+console_title_template = '{{{{ .Shell }}}} in {{{{ .Folder }}}}'
+version = 3
+final_space = true
+shell_integration = true
+
+[palette]
+  color0  = '{color0}'
+  color1  = '{color1}'
+  color2  = '{color2}'
+  color3  = '{color3}'
+  color4  = '{color4}'
+  color5  = '{color5}'
+  color6  = '{color6}'
+  color7  = '{color7}'
+  color8  = '{color8}'
+  color9  = '{color9}'
+  color10 = '{color10}'
+  color11 = '{color11}'
+  color12 = '{color12}'
+  color13 = '{color13}'
+  color14 = '{color14}'
+  color15 = '{color15}'
+
+[secondary_prompt]
+  template = '❯❯ '
+  foreground = 'p:color13'
+  background = 'transparent'
+
+[transient_prompt]
+  template = '❯ '
+  background = 'transparent'
+  foreground_templates = ['{{{{if ne .Code 0}}}}red{{{{end}}}}', '{{{{if eq .Code 0}}}}p:color13{{{{end}}}}']
+
+[[blocks]]
+  type = 'prompt'
+  alignment = 'left'
+  newline = true
+
+  [[blocks.segments]]
+    style = 'plain'
+    template = '{{{{ if .SSHSession }}}}{{{{ .UserName }}}}@{{{{ .HostName }}}}{{{{ end }}}} '
+    foreground = 'p:color5'
+    background = 'transparent'
+    type = 'session'
+
+  [[blocks.segments]]
+    style = 'plain'
+    template = '{{{{ .Path }}}}'
+    foreground = 'p:color14'
+    background = 'transparent'
+    type = 'path'
+
+    [blocks.segments.properties]
+      folder_icon = '..'
+      style = 'agnoster_short'
+
+  [[blocks.segments]]
+    style = 'plain'
+    template = ' on <p:color5>{{{{ .HEAD }}}}</><p:color14>{{{{ if or (.Working.Changed) (.Staging.Changed) }}}}*{{{{ end }}}}</> <p:color4>{{{{ if gt .Behind 0 }}}}⇣{{{{ end }}}}{{{{ if gt .Ahead 0 }}}}⇡{{{{ end }}}}</>'
+    foreground = 'p:color4'
+    background = 'transparent'
+    type = 'git'
+
+    [blocks.segments.properties]
+      branch_icon = ' '
+      commit_icon = '@'
+      fetch_status = true
+
+[[blocks]]
+  type = 'prompt'
+  alignment = 'right'
+  overflow = 'hide'
+
+  [[blocks.segments]]
+    style = 'plain'
+    template = '{{{{ if .Error }}}}{{{{ .Error }}}}{{{{ else }}}}󰌠 {{{{ .Full }}}}{{{{ end }}}} <p:color14>({{{{ if .Venv }}}}{{{{ .Venv }}}}{{{{ end }}}})</>'
+    foreground = 'yellow'
+    type = 'python'
+
+  [[blocks.segments]]
+    style = 'plain'
+    template = '{{{{ if .Error }}}}<p:color5>{{{{ .Error }}}}</>{{{{ else }}}} {{{{ .Full }}}}{{{{ end }}}}'
+    foreground = 'p:color14'
+    type = 'dart'
+
+  [[blocks.segments]]
+    style = 'plain'
+    template = '  {{{{ .Full }}}} '
+    foreground = '#e43716'
+    type = 'rust'
+
+[[blocks]]
+  type = 'prompt'
+  alignment = 'left'
+  newline = true
+
+  [[blocks.segments]]
+    style = 'plain'
+    template = '❯'
+    background = 'transparent'
+    type = 'text'
+    foreground_templates = ['{{{{if ne .Code 0}}}}red{{{{end}}}}', '{{{{if eq .Code 0}}}}p:color13{{{{end}}}}']
