@@ -1,3 +1,5 @@
+#!/bin/bash
+
 wallpaper_root="$HOME/Pictures/Wallpapers/"
 
 if (($# == 1)); then
