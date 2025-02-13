@@ -1,0 +1,110 @@
+{
+  "layer": "top",
+  "modules-left": [
+    "custom/launcher",
+    "cpu",
+    "memory",
+    "network",
+    "bluetooth"
+  ],
+  "modules-center": [
+    "hyprland/workspaces"
+  ],
+  "modules-right": [
+    "mpris",
+    "pulseaudio",
+    "tray",
+    "clock"
+  ],
+  "pulseaudio": {
+    "tooltip": false,
+    "scroll-step": 5,
+    "format": "{icon} {volume}%",
+    "format-muted": "󰝟 {volume}%",
+    "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+    "format-icons": {
+      "default": [
+        "",
+        "",
+        ""
+      ]
+    }
+  },
+  "hyprland/workspaces": {
+    "all-outputs": true
+  },
+  "network": {
+    "format": "{ifname}",
+    "format-wifi": "  {essid} ({signalStrength}%)",
+    "format-ethernet": "  {ifname} ({bandwidthTotalBits})",
+    "format-disconnected": "",
+    "tooltip-format": "{ifname} via {gwaddr}\n {bandwidthDownBits}  {bandwidthUpBits}",
+    "tooltip-format-disconnected": "Disconnected",
+    "interval": 2,
+    "max-length": 30
+  },
+  "bluetooth": {
+    "format": " {status}",
+    "format-connected": " {device_alias}",
+    "format-connected-battery": " {device_alias} {device_battery_percentage}%",
+    "tooltip-format": "{controller_alias}\n\n{num_connections} connected",
+    "tooltip-format-connected": "{controller_alias}\n\n{num_connections} connected:\n{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}",
+    "tooltip-format-enumerate-connected-battery": "{device_alias}: {device_battery_percentage}%"
+  },
+  "tray": {
+    "icon-size": 18,
+    "spacing": 10
+  },
+  "clock": {
+    "tooltip": false,
+    "format": " {:%I:%M %p  %d/%m/%Y}"
+  },
+  "cpu": {
+    "interval": 15,
+    "format": " {}%",
+    "max-length": 10
+  },
+  "memory": {
+    "interval": 30,
+    "format": " {}%",
+    "max-length": 10
+  },
+  "mpris": {
+    "format": "{player_icon}{dynamic}",
+    "format-paused": "{status_icon}{dynamic}",
+    "dynamic-importance-order": [
+      "title",
+      "artist",
+      "position",
+      "length",
+      "album"
+    ],
+    "dynamic-order": [
+      "length",
+      "title",
+      "artist",
+      "album",
+      "position"
+    ],
+    "dynamic-len": 80,
+    "title-len": 40,
+    "artist-len": 25,
+    "album-len": 25,
+    "player-icons": {
+      "spotify": " ",
+      "vlc": "󰕼 ",
+      "default": " "
+    },
+    "status-icons": {
+      "paused": "⏸ "
+    },
+    "interval": 1,
+    "max-length": 80
+  },
+  "custom/launcher": {
+    "format": " ",
+    "on-click": "wofi --show=drun",
+    "on-click-right": "killall wofi"
+  },
+}
