@@ -2,6 +2,11 @@
 # taken from: https://adamsimpson.net/writing/getting-started-with-rofi
 
 source="$(pactl list short sinks | cut -f 2 | rofi -i -dmenu -p "Change audio:")"
+
+if [[ -z "$source" ]]; then
+  exit 0
+fi
+
 inputs="$(pactl list sink-inputs short | cut -f 1)"
 
 for input in $inputs; do
