@@ -114,7 +114,8 @@ if wait_for_y_key "Update dependencies? [Y\n]"; then
     qt6-wayland \
     seatd \
     uwsm \
-    xdg-desktop-portal-hyprland-git
+    xdg-desktop-portal-hyprland-git \
+    xdg-desktop-portal-gtk-git
 fi
 
 echo 'Updating Hyprland'
