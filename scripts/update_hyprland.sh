@@ -60,14 +60,15 @@ latest_commit_local="$(git rev-parse HEAD)"
 latest_commit_remote="$(git rev-parse "$upstream_branch")"
 
 if [[ "$latest_commit_remote" == "$latest_commit_local" ]]; then
-  echo 'Hyprland is up-to-date!'
-  exit 0
+  update_msg="Hyprland is up-to-date! Update anyway? [Y\n]"
+else
+  update_msg="Would you like to update? [Y\n]"
 fi
 
 diff_count="$(git rev-list --count "$upstream_branch" --not "$local_branch")"
 echo "You are $diff_count commits behind"
 
-if ! wait_for_y_key "Would you like to update? [Y\n]"; then
+if ! wait_for_y_key "$update_msg"; then
   exit 0
 fi
 
