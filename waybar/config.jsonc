@@ -1,7 +1,6 @@
 {
   "layer": "top",
   "modules-left": [
-    "custom/launcher",
     "cpu",
     "memory",
     "network",
@@ -17,9 +16,11 @@
     "clock"
   ],
   "pulseaudio": {
-    "tooltip": false,
+    "tooltip": true,
+    "tooltip-format": "{desc}",
     "scroll-step": 5,
     "format": "{icon} {volume}%",
+    "format-bluetooth": "{icon} {volume}%",
     "format-muted": "󰝟 {volume}%",
     "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
     "format-icons": {
@@ -101,10 +102,5 @@
     },
     "interval": 1,
     "max-length": 80
-  },
-  "custom/launcher": {
-    "format": " ",
-    "on-click": "wofi --show=drun",
-    "on-click-right": "killall wofi"
-  },
+  }
 }
