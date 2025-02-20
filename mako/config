@@ -20,7 +20,9 @@ on-notify=exec mpv /usr/share/sounds/freedesktop/stereo/message.oga
 font=JetBrainsMono NF 12
 
 # background color of notification( #RRGGBB | #RRGGBBAA )
-background-color=#161320
+# alpha channel: 8C=0.55
+# for help: https://rgbacolorpicker.com/rgba-to-hex
+background-color=#1613208C
 
 # Text color inside the notification( #RRGGBB | #RRGGBBAA )
 text-color=#FFFFFF
