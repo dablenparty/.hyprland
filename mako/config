@@ -6,14 +6,14 @@ max-history=5
 sort=-time
 
 # [ BINDING OPTIONS ]
-# Supported values: none, dismiss, dismiss-all, 
+# Supported values: none, dismiss, dismiss-all,
 # dismiss-group, invoke-default-action & exec <command>
 
 on-button-left=invoke-default-action
 on-button-middle=dismiss-group
 on-button-right=dismiss
 on-touch=invoke-default-action
-on-notify=exec mpv /usr/share/sounds/freedesktop/stereo/message.oga
+on-notify=exec paplay /usr/share/sounds/freedesktop/stereo/message.oga
 
 # [ STYLE OPTIONS ]
 # which installed font for notification( any font installed )
