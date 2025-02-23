@@ -13,7 +13,8 @@ on-button-left=invoke-default-action
 on-button-middle=dismiss-group
 on-button-right=dismiss
 on-touch=invoke-default-action
-on-notify=exec paplay /usr/share/sounds/freedesktop/stereo/message.oga
+# play a "pop" sound (kinda insanity inducing if you get a lot of notifications)
+# on-notify=exec paplay /usr/share/sounds/freedesktop/stereo/message.oga
 
 # [ STYLE OPTIONS ]
 # which installed font for notification( any font installed )
