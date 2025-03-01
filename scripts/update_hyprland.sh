@@ -75,7 +75,7 @@ fi
 if wait_for_y_key "Update dependencies? [Y\n]"; then
   echo 'Updating dependencies'
   # if this gets out-of-date, check the list in your Obsidian vault or the Hyprland docs
-  paru -S --needed --asdeps cairo \
+  paru -S --needed --asdeps --noconfirm cairo \
     cmake \
     cpio \
     gcc \
@@ -107,7 +107,7 @@ if wait_for_y_key "Update dependencies? [Y\n]"; then
     xcb-util-wm \
     xorg-xwayland
 
-  paru -S --needed --asexplicit aquamarine-git \
+  paru -S --needed --asexplicit --noconfirm aquamarine-git \
     egl-wayland \
     kitty \
     hyprpolkitagent-git \
