@@ -25,7 +25,7 @@ wait_for_y_key() {
 echo 'Checking Hyprland for update...'
 
 if (($# == 1)); then
-  hyprland_path=$1
+  hyprland_path="$1"
 elif (($# > 1)); then
   echo 'usage: update_hyprland.sh [HYPRLAND_PATH]'
   exit 1
