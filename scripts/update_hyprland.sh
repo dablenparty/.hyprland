@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # wait for the y key, returning 0 when it is pressed
 wait_for_y_key() {
