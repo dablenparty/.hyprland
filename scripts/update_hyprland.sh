@@ -74,23 +74,31 @@ fi
 
 if wait_for_y_key "Update dependencies? [Y\n]"; then
   echo 'Updating dependencies'
-  # if this gets out-of-date, check the list in your Obsidian vault or the Hyprland docs
-  paru -S --needed --asdeps --noconfirm cairo \
+  # if this gets out-of-date, check the list in the Hyprland docs
+  # I added some extras that I need for my config (hyprshot, uwsm, kitty, etc.)
+  paru -S --needed --asexplicit --noconfirm aquamarine-git \
+    cairo \
     cmake \
     cpio \
+    egl-wayland \
     gcc \
     glaze \
     hyprcursor-git \
     hyprgraphics-git \
+    hyprland-qtutils-git \
     hyprlang-git \
+    hyprpolkitagent-git \
+    hyprshot-git \
     hyprutils-git \
     hyprwayland-scanner-git \
+    kitty \
     libdisplay-info \
     libinput \
     libliftoff \
     libx11 \
     libxcb \
     libxcomposite \
+    libxcursor \
     libxfixes \
     libxkbcommon \
     libxrender \
@@ -98,25 +106,21 @@ if wait_for_y_key "Update dependencies? [Y\n]"; then
     ninja \
     pango \
     pixman \
+    qt5-wayland \
+    qt6-wayland \
+    re2 \
+    seatd \
     tomlplusplus \
+    uwsm \
     wayland-protocols \
     xcb-proto \
     xcb-util \
     xcb-util-errors \
     xcb-util-keysyms \
     xcb-util-wm \
-    xorg-xwayland
-
-  paru -S --needed --asexplicit --noconfirm aquamarine-git \
-    egl-wayland \
-    kitty \
-    hyprpolkitagent-git \
-    qt5-wayland \
-    qt6-wayland \
-    seatd \
-    uwsm \
+    xdg-desktop-portal-gtk-git \
     xdg-desktop-portal-hyprland-git \
-    xdg-desktop-portal-gtk-git
+    xorg-xwayland
 fi
 
 echo 'Updating Hyprland'
