@@ -74,24 +74,21 @@ fi
 
 if wait_for_y_key "Update dependencies? [Y\n]"; then
   echo 'Updating dependencies'
+  # build dependencies
   # if this gets out-of-date, check the list in the Hyprland docs
-  # I added some extras that I need for my config (hyprshot, uwsm, kitty, etc.)
+  # use --asexplicit so the packages don't get cleaned and break Hyprland
   paru -S --needed --asexplicit --noconfirm aquamarine-git \
     cairo \
     cmake \
     cpio \
-    egl-wayland \
     gcc \
     glaze \
     hyprcursor-git \
     hyprgraphics-git \
     hyprland-qtutils-git \
     hyprlang-git \
-    hyprpolkitagent-git \
-    hyprshot-git \
     hyprutils-git \
     hyprwayland-scanner-git \
-    kitty \
     libdisplay-info \
     libinput \
     libliftoff \
@@ -106,28 +103,38 @@ if wait_for_y_key "Update dependencies? [Y\n]"; then
     ninja \
     pango \
     pixman \
-    qt5-wayland \
-    qt6-wayland \
     re2 \
-    seatd \
     tomlplusplus \
-    uwsm \
     wayland-protocols \
     xcb-proto \
     xcb-util \
     xcb-util-errors \
     xcb-util-keysyms \
     xcb-util-wm \
-    xdg-desktop-portal-gtk-git \
-    xdg-desktop-portal-hyprland-git \
     xorg-xwayland
+
+  # extra runtime dependencies
+  # hyprshot: screenshots
+  # kitty: default terminal
+  # uwsm: for systemd management
+  # xdg-desktop-portal-gtk: for file picker
+  # xdg-desktop-portal-hyprland: for screensharing
+  paru -S --needed --asexplicit --noconfirm egl-wayland \
+    hyprpolkitagent-git \
+    hyprshot-git \
+    kitty \
+    qt5-wayland \
+    qt6-wayland \
+    seatd \
+    uwsm \
+    xdg-desktop-portal-gtk-git \
+    xdg-desktop-portal-hyprland-git
 fi
 
 echo 'Updating Hyprland'
 git pull origin "$local_branch" || exit 1
 git submodule update --remote --recursive --rebase || exit 1
-make all
-sudo make install
+make all && sudo make install
 
 date_str="BUILD_COMMIT $(date +"%a %b %d %Y %H-%M-%S")"
 git rev-parse HEAD >"$hyprland_path/$date_str"
