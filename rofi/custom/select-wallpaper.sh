@@ -15,4 +15,4 @@ if [[ -z "$selected_idx" ]]; then
   exit 0
 fi
 
-"$HOME/update-wallpaper-hyprpaper.sh" "${all_files[$selected_idx]}" &>/dev/null
+"$HOME/update-wallpaper.sh" "${all_files[$selected_idx]}" &>/dev/null

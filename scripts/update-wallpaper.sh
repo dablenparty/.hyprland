@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if (($# == 1)); then
-  wallpaper_root="$(realpath -ez "$1")"
+  wallpaper_root="$(realpath -e "$1")"
 else
   wallpaper_root="$HOME/Pictures/Wallpapers/"
 fi
