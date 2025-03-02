@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
 
-wallpaper_root="$HOME/Pictures/Wallpapers/"
-
 if (($# == 1)); then
-  # use the file passed in
-  file_name="$(basename "$1")"
-  wallpaper_root="$wallpaper_root/$file_name"
+  wallpaper_root="$(realpath -ez "$1")"
+else
+  wallpaper_root="$HOME/Pictures/Wallpapers/"
 fi
 
 # args must be separated for wal
@@ -14,12 +12,8 @@ wal --cols16 -q -t -s -n -i "$wallpaper_root"
 # load pywal colorscheme
 source "$HOME/.cache/wal/colors.sh"
 
-hyprctl hyprpaper unload all
-# $wallpaper should be loaded by the above script
-hyprctl hyprpaper preload "$wallpaper"
-# set globally
-hyprctl hyprpaper wallpaper ",$wallpaper"
+swww img --resize crop --transition-type any --transition-fps 120 --transition-duration 1.35 "$wallpaper"
 
 # get the filename by removing the root
 
-notify-send -u normal --app-name hyprpaper "Successfully updated wallpaper and colors!" "Used $(basename "$wallpaper")"
+notify-send -u normal --app-name swww-daemon "Successfully updated wallpaper and colors!" "Used $(basename "$wallpaper")"
