@@ -10,10 +10,11 @@ fi
 wal --cols16 -q -t -s -n -i "$wallpaper_root"
 
 # load pywal colorscheme
+# sets $wallpaper to the absolute path of the current wallpaper
 source "$HOME/.cache/wal/colors.sh"
 
 swww img --resize crop --transition-type any --transition-fps 120 --transition-duration 1.35 "$wallpaper"
 
 # get the filename by removing the root
 
-notify-send -u normal --app-name swww-daemon "Successfully updated wallpaper and colors!" "Used $(basename "$wallpaper")"
+notify-send -u normal --app-name swww-daemon "Updated wallpaper and colors!" "${wallpaper##*/}"
