@@ -1,0 +1,24 @@
+player: mpris
+ignoreErrors: true
+style:
+  hAlignment: center
+  before:
+    background: ""
+    foreground: "{color8}"
+    bold: false
+    italic: true
+    faint: true
+  current:
+    background: ""
+    foreground: "{foreground}"
+    bold: true
+  after:
+    background: ""
+    foreground: "{color12}"
+    bold: false
+    italic: false
+    faint: true
+mpris:
+  players: []
+local:
+  folder: "~/Music/.lyrics"
