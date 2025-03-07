@@ -14,7 +14,7 @@ style:
     bold: true
   after:
     background: ""
-    foreground: "{color12}"
+    foreground: "{color14}"
     bold: false
     italic: false
     faint: true
