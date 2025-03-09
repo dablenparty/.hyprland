@@ -12,37 +12,51 @@ while read -r line; do
     i=$((i + 1))
     continue
   fi
-  sources[$i]="${sources[$i]}\n$line"
+  # add a newline (writing \n writes the LITERAL \n)
+  sources[$i]="${sources[$i]}
+$line"
 done < <(pactl list sinks)
 
-source_count=$((${#sources[@]} - 1))
+source_count=$((${#sources[@]}))
 
 # initialize sinks and names from parsed sources
-for i in $(seq 0 "$source_count"); do
-  source="${sources[$i]}"
-  sinks[$i]="$(echo -e "$source" | rg 'Name: ' | awk -F ': ' '{print $2}')"
-  source_names[$i]="$(echo -e "$source" | rg 'Description: ' | awk -F ': ' '{print $2}')"
+for ((i = 0; i < source_count; i++)); do
+  while read -r line; do
+    # if the regex doesn't match, continue
+    [[ "$line" =~ (Description|Name):\ ?(.+)$ ]] || continue
 
-  # if sink starts with 'raop_sink', label it as (AirPlay)
-  if [[ "${sinks[$i]}" =~ ^raop_sink.+$ ]]; then
-    source_names[$i]="${source_names[$i]} (AirPlay)"
-  fi
+    key="${BASH_REMATCH[1]}"
+    value="${BASH_REMATCH[2]}"
 
-  # increment i
-  i=$((i + 1))
+    case "$key" in
+    Description)
+      # if sink starts with 'raop_sink', label it as (AirPlay)
+      if [[ "${sinks[$i]}" =~ ^raop_sink ]]; then
+        source_names[$i]="$value (AirPlay)"
+      else
+        source_names[$i]="$value"
+
+      fi
+      ;;
+    Name)
+      sinks[$i]="$value"
+      ;;
+    *) ;;
+    esac
+  done <<<"${sources[$i]}"
+
 done
 
-selected_idx="$(for i in $(seq 0 "$source_count"); do echo "${source_names[$i]}"; done | rofi -dmenu -format "i" -i -p "Change audio:")"
+selected_idx="$(for ((i = 0; i < source_count; i++)); do echo "${source_names[$i]}"; done | rofi -dmenu -format "i" -i -p "Audio Device:")"
 
 if [[ -z "$selected_idx" ]]; then
   exit 0
 fi
 
-source="${sources[$selected_idx]}"
 source_name="${source_names[$selected_idx]}"
 sink="${sinks[$selected_idx]}"
 
-printf "Selected Source Index: %d\nName: %s\nSink: %s\n" "$selected_idx" "$source_name" "$sink"
+printf "Selected Source Index: %d\nName: %s\Description: %s\n" "$selected_idx" "$sink" "$source_name"
 
 inputs="$(pactl list sink-inputs short | cut -f 1)"
 
