@@ -114,9 +114,10 @@ if wait_for_y_key "Update dependencies? [Y\n]"; then
     xorg-xwayland
 
   # extra runtime dependencies
+  # hyprpolkitagent: power and auth agent
   # hyprshot: screenshots
   # kitty: default terminal
-  # uwsm: for systemd management
+  # uwsm: for systemd management on Wayland
   # xdg-desktop-portal-gtk: for file picker
   # xdg-desktop-portal-hyprland: for screensharing
   paru -S --needed --asexplicit --noconfirm egl-wayland \
