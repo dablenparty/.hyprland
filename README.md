@@ -14,5 +14,5 @@ You'll also need to enable the experimental `bluez` features:
 Experimental = true
 ```
 
-> [!IMPORTANT] Be careful with `bluetoothctl`
-> Some of its subcommands can cause Hyprland to just... logout or crash. It's tracked by [this GitHub issue](https://github.com/bluez/bluez/issues/996).
+> [!IMPORTANT]
+> Be careful with `bluetoothctl`. Some of its subcommands can cause Hyprland to just... logout or crash. It's tracked by [this GitHub issue](https://github.com/bluez/bluez/issues/996).
