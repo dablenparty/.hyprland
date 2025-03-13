@@ -33,6 +33,7 @@ fi
 
 if (($# != 1)); then
   echo "usage: $0 <image_file>"
+  exit 1
 fi
 
 notif_id="$(notify-send --print-id --urgency low --expire-time 10000 "Processing OCR...")"
