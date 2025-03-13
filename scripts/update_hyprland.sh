@@ -134,6 +134,39 @@ if wait_for_y_key "Update dependencies? [Y\n]"; then
     wl-clipboard \
     xdg-desktop-portal-gtk-git \
     xdg-desktop-portal-hyprland-git
+
+  # runtime programs
+  # blueman: bluetooth applet
+  # foot: terminal
+  # hypridle: idle daemon
+  # hyprlock: lock screen
+  # hyprshot: takes screenshots (see ../hypr/binds.conf)
+  # mako: notification daemon
+  # nwg-look: GTK themeing
+  # obsidian: note taking
+  # pywal16: generates colors from wallpapers
+  # rofi: dynamic menu (like raycast)
+  # swww: wallpaper daemon
+  # tesseract: OCR images
+  # upscayl-ncnn: image upscaling CLI (for OCR)
+  # waybar: top bar (plus its default font)
+  # waypaper: wallpaper manager GUI (uses swww backend)
+  paru -S --needed --asexplicit --noconfirm \
+    blueman \
+    foot \
+    hypridle-git \
+    hyprlock-git \
+    hyprshot-git \
+    mako \
+    nwg-look \
+    obsidian \
+    python-pywal16 \
+    rofi-wayland \
+    swww \
+    tesseract \
+    upscayl-ncnn \
+    waybar ttf-font-awesome \
+    waypaper
 fi
 
 echo 'Updating Hyprland'
