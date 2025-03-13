@@ -117,6 +117,7 @@ if wait_for_y_key "Update dependencies? [Y\n]"; then
   # hyprpolkitagent: power and auth agent
   # hyprshot: screenshots
   # kitty: default terminal
+  # sddm: lockscreen/display manager
   # uwsm: for systemd management on Wayland
   # xdg-desktop-portal-gtk: for file picker
   # xdg-desktop-portal-hyprland: for screensharing
@@ -126,6 +127,7 @@ if wait_for_y_key "Update dependencies? [Y\n]"; then
     kitty \
     qt5-wayland \
     qt6-wayland \
+    sddm \
     seatd \
     uwsm \
     xdg-desktop-portal-gtk-git \
