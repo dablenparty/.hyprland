@@ -119,6 +119,7 @@ if wait_for_y_key "Update dependencies? [Y\n]"; then
   # kitty: default terminal
   # sddm: lockscreen/display manager
   # uwsm: for systemd management on Wayland
+  # wl-clipboard: clipbaord manager for Wayland
   # xdg-desktop-portal-gtk: for file picker
   # xdg-desktop-portal-hyprland: for screensharing
   paru -S --needed --asexplicit --noconfirm egl-wayland \
@@ -130,6 +131,7 @@ if wait_for_y_key "Update dependencies? [Y\n]"; then
     sddm \
     seatd \
     uwsm \
+    wl-clipboard \
     xdg-desktop-portal-gtk-git \
     xdg-desktop-portal-hyprland-git
 fi
