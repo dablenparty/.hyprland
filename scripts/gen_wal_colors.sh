@@ -2,6 +2,7 @@
 
 if (($# != 1)); then
   echo "usage: $0 <wallpaper_file>"
+  exit 1
 fi
 
 wallpaper_file="$1"
