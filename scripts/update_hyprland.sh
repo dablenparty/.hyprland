@@ -72,105 +72,104 @@ if ! wait_for_y_key "$update_msg"; then
   exit 0
 fi
 
-if wait_for_y_key "Update dependencies? [Y\n]"; then
-  echo 'Updating dependencies'
-  # build dependencies
-  # if this gets out-of-date, check the list in the Hyprland docs
-  # use --asexplicit so the packages don't get cleaned and break Hyprland
-  paru -S --needed --asexplicit --noconfirm aquamarine-git \
-    cairo \
-    cmake \
-    cpio \
-    gcc \
-    glaze \
-    hyprcursor-git \
-    hyprgraphics-git \
-    hyprland-qtutils-git \
-    hyprlang-git \
-    hyprutils-git \
-    hyprwayland-scanner-git \
-    libdisplay-info \
-    libinput \
-    libliftoff \
-    libx11 \
-    libxcb \
-    libxcomposite \
-    libxcursor \
-    libxfixes \
-    libxkbcommon \
-    libxrender \
-    meson \
-    ninja \
-    pango \
-    pixman \
-    re2 \
-    tomlplusplus \
-    wayland-protocols \
-    xcb-proto \
-    xcb-util \
-    xcb-util-errors \
-    xcb-util-keysyms \
-    xcb-util-wm \
-    xorg-xwayland
+# update build dependencies
+# if this gets out-of-date, check the list in the Hyprland docs
+paru -S --needed --asdeps --noconfirm \
+  aquamarine-git \
+  cairo \
+  cmake \
+  cpio \
+  gcc \
+  glaze \
+  hyprcursor-git \
+  hyprgraphics-git \
+  hyprland-qtutils-git \
+  hyprlang-git \
+  hyprutils-git \
+  hyprwayland-scanner-git \
+  libdisplay-info \
+  libinput \
+  libliftoff \
+  libx11 \
+  libxcb \
+  libxcomposite \
+  libxcursor \
+  libxfixes \
+  libxkbcommon \
+  libxrender \
+  meson \
+  ninja \
+  pango \
+  pixman \
+  re2 \
+  tomlplusplus \
+  wayland-protocols \
+  xcb-proto \
+  xcb-util \
+  xcb-util-errors \
+  xcb-util-keysyms \
+  xcb-util-wm \
+  xorg-xwayland
 
+if wait_for_y_key "Update runtime dependencies? [Y\n]"; then
+  paru -S --needed --asexplicit --noconfirm
   # extra runtime dependencies
-  # hyprpolkitagent: power and auth agent
-  # hyprshot: screenshots
-  # kitty: default terminal
-  # sddm: lockscreen/display manager
-  # uwsm: for systemd management on Wayland
-  # wl-clipboard: clipbaord manager for Wayland
-  # xdg-desktop-portal-gtk: for file picker
-  # xdg-desktop-portal-hyprland: for screensharing
-  paru -S --needed --asexplicit --noconfirm egl-wayland \
-    hyprpolkitagent-git \
-    hyprshot-git \
-    kitty \
-    qt5-wayland \
-    qt6-wayland \
-    sddm \
-    seatd \
-    uwsm \
-    wl-clipboard \
-    xdg-desktop-portal-gtk-git \
-    xdg-desktop-portal-hyprland-git
-
-  # runtime programs
   # blueman: bluetooth applet
-  # perl-image-exiftool: exiftool for superfile metadata plugin
   # foot: terminal
   # hypridle: idle daemon
   # hyprlock: lock screen
+  # hyprpolkitagent: power and auth agent
+  # hyprshot: screenshots
   # hyprshot: takes screenshots (see ../hypr/binds.conf)
+  # kitty: default terminal
   # mako: notification daemon
   # nwg-look: GTK themeing
   # obsidian: note taking
+  # perl-image-exiftool: exiftool for superfile metadata plugin
   # pywal16: generates colors from wallpapers
   # rofi: dynamic menu (like raycast)
+  # sddm: lockscreen/display manager
   # superfile: terminal file manager
   # swww: wallpaper daemon
   # tesseract: OCR images
   # upscayl-ncnn: image upscaling CLI (for OCR)
+  # uwsm: for systemd management on Wayland
   # waybar: top bar (plus its default font)
   # waypaper: wallpaper manager GUI (uses swww backend)
+  # wl-clipboard: clipbaord manager for Wayland
+  # xdg-desktop-portal-gtk: for file picker
+  # xdg-desktop-portal-hyprland: for screensharing
   paru -S --needed --asexplicit --noconfirm \
     blueman \
-    perl-image-exiftool \
+    egl-wayland \
     foot \
     hypridle-git \
     hyprlock-git \
+    hyprpolkitagent-git \
     hyprshot-git \
+    hyprshot-git \
+    kitty \
     mako \
     nwg-look \
     obsidian \
+    perl-image-exiftool \
     python-pywal16 \
+    qt5-wayland \
+    qt6-wayland \
     rofi-wayland \
+    sddm \
+    seatd \
     superfile \
     swww \
     tesseract \
     upscayl-ncnn \
+    uwsm \
     waybar ttf-font-awesome \
-    waypaper
+    waypaper \
+    wl-clipboard \
+    xdg-desktop-portal-gtk-git \
+    xdg-desktop-portal-hyprland-git
+
 fi
 
 echo 'Updating Hyprland'
