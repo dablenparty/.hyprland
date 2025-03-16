@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -eo pipefail
+
 declare -A sources
 declare -A source_names
 declare -A sinks
@@ -30,13 +32,21 @@ for ((i = 0; i < source_count; i++)); do
 
     case "$key" in
     Description)
-      # if sink starts with 'raop_sink', label it as (AirPlay)
-      if [[ "${sinks[$i]}" =~ ^raop_sink ]]; then
-        source_names[$i]="$value (AirPlay)"
-      else
-        source_names[$i]="$value"
+      # the sink type can be extracted from the start of the sink name
+      # remove everything after first . (e.g. "one.two.three" -> "one")
+      sink_type="${sinks[$i]%%.*}"
 
-      fi
+      case "$sink_type" in
+      raop_sink)
+        source_names[$i]="$value (AirPlay)"
+        ;;
+      bluez_output)
+        source_names[$i]="$value (Bluetooth)"
+        ;;
+      *)
+        source_names[$i]="$value"
+        ;;
+      esac
       ;;
     Name)
       sinks[$i]="$value"
