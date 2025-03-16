@@ -1,0 +1,11 @@
+PackageConfig(
+    target: "~/.config/superfile",
+    ignore_pats: [
+        "\\.unboxrc.*$",
+        "^\\.git.*$",
+        "^(README|LICEN[CS]E|COPYING).*$",
+    ],
+    link_root: false,
+    no_create_dirs: false,
+    use_relative_links: false,
+)

@@ -137,6 +137,7 @@ if wait_for_y_key "Update dependencies? [Y\n]"; then
 
   # runtime programs
   # blueman: bluetooth applet
+  # perl-image-exiftool: exiftool for superfile metadata plugin
   # foot: terminal
   # hypridle: idle daemon
   # hyprlock: lock screen
@@ -146,6 +147,7 @@ if wait_for_y_key "Update dependencies? [Y\n]"; then
   # obsidian: note taking
   # pywal16: generates colors from wallpapers
   # rofi: dynamic menu (like raycast)
+  # superfile: terminal file manager
   # swww: wallpaper daemon
   # tesseract: OCR images
   # upscayl-ncnn: image upscaling CLI (for OCR)
@@ -153,6 +155,7 @@ if wait_for_y_key "Update dependencies? [Y\n]"; then
   # waypaper: wallpaper manager GUI (uses swww backend)
   paru -S --needed --asexplicit --noconfirm \
     blueman \
+    perl-image-exiftool \
     foot \
     hypridle-git \
     hyprlock-git \
@@ -162,6 +165,7 @@ if wait_for_y_key "Update dependencies? [Y\n]"; then
     obsidian \
     python-pywal16 \
     rofi-wayland \
+    superfile \
     swww \
     tesseract \
     upscayl-ncnn \
