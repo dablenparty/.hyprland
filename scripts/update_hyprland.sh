@@ -159,7 +159,6 @@ if wait_for_y_key "Update runtime dependencies? [Y\n]"; then
     rofi-wayland \
     sddm \
     seatd \
-    superfile \
     swww \
     tesseract \
     upscayl-ncnn \
@@ -168,7 +167,8 @@ if wait_for_y_key "Update runtime dependencies? [Y\n]"; then
     waypaper \
     wl-clipboard \
     xdg-desktop-portal-gtk-git \
-    xdg-desktop-portal-hyprland-git
+    xdg-desktop-portal-hyprland-git \
+    yazi
 
 fi
 
