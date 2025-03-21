@@ -2,9 +2,9 @@
 pkgname=Hyprland-git
 pkgver=0.47.0.r172.gc7f0519
 pkgrel=2
-pkgdesc="A modern compositor, Hyprland provides the latest Wayland features, dynamic tiling, all the eyecandy, powerful plugins and much more, while still being lightweight and responsive"
+pkgdesc="Hyprland provides the latest Wayland features, dynamic tiling, all the eyecandy, powerful plugins and much more, while still being lightweight and responsive"
 arch=(x86_64)
-url="https://github.com/hyprwm/Hyprland"
+url="https://hyprland.org/"
 license=('GPL')
 depends=(
   aquamarine-git
@@ -77,7 +77,7 @@ makedepends=(
 )
 provides=("hyprland" "wayland-compositor")
 conflicts=(hyprland Hyprland hyprland-git)
-source=("Hyprland::git+${url}.git")
+source=("git+https://github.com/hyprwm/Hyprland.git")
 sha256sums=(SKIP)
 
 prepare() {
