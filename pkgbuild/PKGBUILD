@@ -1,7 +1,7 @@
 # Maintainer: Your Name <youremail@domain.com>
-pkgname=Hyprland
-pkgver=155eba57d
-pkgrel=1
+pkgname=Hyprland-git
+pkgver=0.47.0.r172.gc7f0519
+pkgrel=2
 pkgdesc="A modern compositor, Hyprland provides the latest Wayland features, dynamic tiling, all the eyecandy, powerful plugins and much more, while still being lightweight and responsive"
 arch=(x86_64)
 url="https://github.com/hyprwm/Hyprland"
@@ -72,13 +72,12 @@ makedepends=(
   hyprwayland-scanner-git
   gcc
   glaze
-  make
   meson
   ninja
 )
 provides=("hyprland" "wayland-compositor")
-conflicts=(hyprland)
-source=("git+${url}.git")
+conflicts=(hyprland Hyprland hyprland-git)
+source=("Hyprland::git+${url}.git")
 sha256sums=(SKIP)
 
 prepare() {
@@ -88,9 +87,8 @@ prepare() {
 
 pkgver() {
   cd "$srcdir/Hyprland" || exit 1
-  local commit_hash
-  commit_hash=$(git rev-parse --short HEAD)
-  echo "$commit_hash" | sed 's/[:\/\-]//g'
+  # from: https://wiki.archlinux.org/title/VCS_package_guidelines#The_pkgver()_function
+  git describe --long --tags --abbrev=7 | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
@@ -103,5 +101,5 @@ package() {
   make install DESTDIR="$pkgdir/"
 
   # license
-  install -Dm0644 -t "$pkgdir/usr/share/licenses/$pkgname" LICENSE
+  install -Dm644 -t "$pkgdir/usr/share/licenses/$pkgname" LICENSE
 }
