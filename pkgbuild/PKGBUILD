@@ -1,7 +1,8 @@
 # Maintainer: Your Name <youremail@domain.com>
-pkgname=Hyprland-git
-pkgver=0.47.0.r172.gc7f0519
-pkgrel=2
+_pkgname=Hyprland
+pkgname="${_pkgname}-git"
+pkgver=0.48.0.r8.gf7ba86d
+pkgrel=1
 pkgdesc="Hyprland provides the latest Wayland features, dynamic tiling, all the eyecandy, powerful plugins and much more, while still being lightweight and responsive"
 arch=(x86_64)
 url="https://hyprland.org/"
@@ -71,35 +72,45 @@ makedepends=(
   cmake
   hyprwayland-scanner-git
   gcc
+  git
   glaze
   meson
   ninja
 )
 provides=("hyprland" "wayland-compositor")
 conflicts=(hyprland Hyprland hyprland-git)
-source=("git+https://github.com/hyprwm/Hyprland.git")
-sha256sums=(SKIP)
-
-prepare() {
-  cd "$srcdir/Hyprland" || exit 1
-  git submodule update --init --remote --recursive --rebase
-}
+source=(
+  "${_pkgname}-${pkgver}::git+https://github.com/hyprwm/Hyprland.git"
+  "git+https://github.com/hyprwm/hyprland-protocols"
+  "git+https://github.com/canihavesomecoffee/udis86"
+  "git+https://github.com/wolfpld/tracy"
+)
+noextract=()
+sha256sums=('SKIP' 'SKIP' 'SKIP' 'SKIP')
 
 pkgver() {
-  cd "$srcdir/Hyprland" || exit 1
-  # from: https://wiki.archlinux.org/title/VCS_package_guidelines#The_pkgver()_function
-  git describe --long --tags --abbrev=7 | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+  cd "$srcdir/${_pkgname}-${pkgver}" || exit 1
+
+  # Git, tags available
+  printf "%s" "$(git describe --long --tags --abbrev=7 | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g')"
+}
+
+prepare() {
+  cd "$srcdir/${_pkgname}-${pkgver}" || exit 1
+
+  git config submodule.subprojects/hyprland-protocols.url "file://$srcdir/hyprland-protocols"
+  git config submodule.subprojects/udis86.url "file://$srcdir/udis86"
+  git config submodule.subprojects/tracy.url "file://$srcdir/tracy"
+
+  git -c protocol.file.allow=always submodule update
 }
 
 build() {
-  cd "$srcdir/Hyprland" || exit 1
+  cd "$srcdir/${_pkgname}-${pkgver}" || exit 1
   make all
 }
 
 package() {
-  cd "$srcdir/Hyprland" || exit 1
-  make install DESTDIR="$pkgdir/"
-
-  # license
-  install -Dm644 -t "$pkgdir/usr/share/licenses/$pkgname" LICENSE
+  cd "$srcdir/${_pkgname}-${pkgver}" || exit 1
+  make DESTDIR="$pkgdir/" install
 }
