@@ -77,10 +77,10 @@ makedepends=(
   meson
   ninja
 )
-provides=("hyprland" "wayland-compositor")
+provides=("$_pkgname=${pkgver/\.r*/}" "wayland-compositor")
 conflicts=(hyprland Hyprland hyprland-git)
 source=(
-  "${_pkgname}-${pkgver}::git+https://github.com/hyprwm/Hyprland.git"
+  "git+https://github.com/hyprwm/$_pkgname.git"
   "git+https://github.com/hyprwm/hyprland-protocols"
   "git+https://github.com/canihavesomecoffee/udis86"
   "git+https://github.com/wolfpld/tracy"
@@ -89,14 +89,14 @@ noextract=()
 sha256sums=('SKIP' 'SKIP' 'SKIP' 'SKIP')
 
 pkgver() {
-  cd "$srcdir/${_pkgname}-${pkgver}" || exit 1
+  cd "$srcdir/$_pkgname" || exit 1
 
   # Git, tags available
   printf "%s" "$(git describe --long --tags --abbrev=7 | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g')"
 }
 
 prepare() {
-  cd "$srcdir/${_pkgname}-${pkgver}" || exit 1
+  cd "$srcdir/$_pkgname" || exit 1
 
   git config submodule.subprojects/hyprland-protocols.url "file://$srcdir/hyprland-protocols"
   git config submodule.subprojects/udis86.url "file://$srcdir/udis86"
@@ -106,11 +106,11 @@ prepare() {
 }
 
 build() {
-  cd "$srcdir/${_pkgname}-${pkgver}" || exit 1
+  cd "$srcdir/$_pkgname" || exit 1
   make all
 }
 
 package() {
-  cd "$srcdir/${_pkgname}-${pkgver}" || exit 1
+  cd "$srcdir/$_pkgname" || exit 1
   make DESTDIR="$pkgdir/" install
 }
