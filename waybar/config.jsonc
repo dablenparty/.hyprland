@@ -92,7 +92,11 @@
     "title-len": 40,
     "artist-len": 25,
     "album-len": 25,
+    "ignored-players": [
+      "firefox"
+    ],
     "player-icons": {
+      "kew": " ",
       "spotify": " ",
       "vlc": "󰕼 ",
       "default": " "
