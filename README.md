@@ -8,14 +8,20 @@ You can either install it manually or with my custom [PKGBUILD](pkgbuild/PKGBUIL
 
 ## PKGBUILD
 
-You'll need an AUR helper. I prefer `paru`. It's as simple as `cd`ing into the directory and installing:
+You'll need `paru`. Add the following to `paru.conf`:
 
-```bash
-# cd /path/to/.hyprland
-paru -Bi pkgbuild/
+```ini
+[dot-hyprland]
+Url = https://github.com/dablenparty/.hyprland
+Depth = 3
+SkipReview
+GenerateSrcinfo
 ```
 
-After installation, `paru` might throw the following error: `error: git  reset --hard HEAD: No such file or directory (os error 2)`. It doesn't appear to affect the installation, so ignore it. It's tracked by [GitHub issue](https://github.com/Morganamilo/paru/issues/1234).
+Next time you run `paru`, it should download the [PKGBUILD](pkgbuild/PKGBUILD) and update it with the rest of the system.
+
+> [!NOTE]
+> After installation, `paru` might throw the following error: `error: git  reset --hard HEAD: No such file or directory (os error 2)`. It doesn't appear to affect the installation, so ignore it. It's tracked by this [GitHub issue](https://github.com/Morganamilo/paru/issues/1234).
 
 ## Manually
 
