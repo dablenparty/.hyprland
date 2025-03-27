@@ -48,6 +48,7 @@ depends=(
   rofi-wayland
   sddm
   seatd
+  sway-audio-idle-inhibit-git
   swww
   tesseract
   tomlplusplus
