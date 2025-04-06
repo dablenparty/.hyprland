@@ -53,6 +53,7 @@ depends=(
   tesseract
   tomlplusplus
   ttf-font-awesome
+  udiskie
   upscayl-ncnn
   uwsm
   waybar
