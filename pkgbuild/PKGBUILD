@@ -1,7 +1,7 @@
 # Maintainer: Your Name <youremail@domain.com>
 _pkgname=Hyprland
 pkgname="${_pkgname}-git"
-pkgver=0.48.0.r8.gf7ba86d
+pkgver=0.48.0.r73.g99ab3e1
 pkgrel=1
 pkgdesc="Hyprland provides the latest Wayland features, dynamic tiling, all the eyecandy, powerful plugins and much more, while still being lightweight and responsive"
 arch=(x86_64)
@@ -49,7 +49,7 @@ depends=(
   sddm
   seatd
   sway-audio-idle-inhibit-git
-  swww
+  swww-git
   tesseract
   tomlplusplus
   ttf-font-awesome
