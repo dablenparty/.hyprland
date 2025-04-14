@@ -1,5 +1,5 @@
 PackageConfig(
-    target: "${XDG_CONFIG_HOME:-$HOME}/paru",
+    target: "$HOME/.config/paru",
     ignore_pats: [
         "\\.unboxrc(\\.ron)?$",
         "^\\.git.*$",
