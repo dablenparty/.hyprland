@@ -13,6 +13,7 @@ depends=(
   cairo
   cpio
   egl-wayland
+  firefox
   foot
   git
   hyprcursor-git
@@ -48,6 +49,7 @@ depends=(
   rofi-wayland
   sddm
   seatd
+  speech-dispatcher
   sway-audio-idle-inhibit-git
   swww-git
   tesseract

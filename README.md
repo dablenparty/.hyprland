@@ -41,5 +41,6 @@ systemctl enable sddm.service
 systemctl enable --user hypridle.service
 systemctl enable --user hyprpolkitagent.service
 systemctl enable --user mako.service
+systemctl enable --user speech-dispatcher.socket
 systemctl enable --user waybar.service
 ```
