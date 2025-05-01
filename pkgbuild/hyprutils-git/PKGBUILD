@@ -1,0 +1,45 @@
+_pkgname="hyprutils"
+pkgname="$_pkgname-git"
+pkgver=0.6.0.r0.gf2dc70e
+pkgrel=1
+pkgdesc="Hyprland utilities library used across the ecosystem"
+arch=('x86_64' 'aarch64')
+url="https://github.com/hyprwm/hyprutils"
+license=('BSD-3-Clause')
+depends=(
+  pixman
+)
+makedepends=(
+  cmake
+  git
+  ninja
+)
+provides=("$_pkgname=${pkgver/\.r*/}" "lib$_pkgname.so")
+conflicts=("$_pkgname")
+source=("git+$url.git")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_pkgname" || exit 1
+
+  printf "%s" "$(git describe --long --tags --abbrev=7 | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g')"
+}
+
+prepare() {
+  cd "$srcdir/$_pkgname" || exit 1
+
+  cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr -S . -B ./build
+}
+
+build() {
+  cd "$srcdir/$_pkgname" || exit 1
+
+  cmake --build ./build --config Release --target all -j"$(nproc 2>/dev/null || getconf NPROCESSORS_CONF)"
+}
+
+package() {
+  cd "$srcdir/$_pkgname" || exit 1
+
+  DESTDIR="$pkgdir/" cmake --install build
+  install -Dm644 "$srcdir/$_pkgname/LICENSE" -t "$pkgdir/usr/share/licenses/$pkgname/"
+}
