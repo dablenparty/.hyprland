@@ -30,8 +30,6 @@ for dev in "${selected_audio_devices[@]}"; do
   GPUSC_ARGS+=(-a "$dev")
 done
 
-printf "%s\n" "${GPUSC_ARGS[@]}"
-
 gpu-screen-recorder \
   -s 1920x1080 \
   -f 60 \
@@ -40,7 +38,7 @@ gpu-screen-recorder \
   -bm qp \
   -q very_high \
   -tune quality \
-  -ac aac
-"${GPUSC_ARGS[@]}"
+  -ac aac \
+  "${GPUSC_ARGS[@]}"
 
 # TODO: remuxing
