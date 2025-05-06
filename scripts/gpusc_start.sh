@@ -2,8 +2,6 @@
 
 set -xeo pipefail
 
-# TODO: cli flags with getopts
-
 declare -a GPUSC_ARGS
 
 read -rep "Title (leave blank for default): " title
@@ -30,8 +28,9 @@ for dev in "${selected_audio_devices[@]}"; do
   GPUSC_ARGS+=(-a "$dev")
 done
 
+GPUSC_ARGS=("${GPUSC_ARGS[@]}" "$@")
+
 gpu-screen-recorder \
-  -s 1920x1080 \
   -f 60 \
   -fm cfr \
   -k hevc \
