@@ -13,8 +13,8 @@ if [[ -z "$title" ]]; then
   title="Video"
 fi
 
-printf -v output_filename "%s_%s.mp4" "$title" "$(date +"%Y-%m-%d_%H-%M-%S")"
-GPUSC_ARGS+=(-o "$OUTPUT_DEST/$output_filename")
+printf -v output_filename "%s/%s_%s.mp4" "$OUTPUT_DEST" "$title" "$(date +"%Y-%m-%d_%H-%M-%S")"
+GPUSC_ARGS+=(-o "$output_filename")
 
 capture_option="$(gpu-screen-recorder --list-capture-options | fzf --prompt="Capture Device:" | cut -d'|' -f1)"
 GPUSC_ARGS+=(-w "$capture_option")
@@ -42,5 +42,3 @@ gpu-screen-recorder \
   -tune performance \
   -ac aac \
   "${GPUSC_ARGS[@]}"
-
-# TODO: remuxing
