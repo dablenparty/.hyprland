@@ -2,6 +2,9 @@
 
 set -xeo pipefail
 
+# TODO: cli args with getopts
+# for passing args to gpu-screen-recorder, pass all args that come after '--'
+OUTPUT_DEST="${OUTPUT_DEST:-/mnt/Recordings/GPUSC}"
 declare -a GPUSC_ARGS
 
 read -rep "Title (leave blank for default): " title
@@ -11,7 +14,7 @@ if [[ -z "$title" ]]; then
 fi
 
 printf -v output_filename "%s_%s.mp4" "$title" "$(date +"%Y-%m-%d_%H-%M-%S")"
-GPUSC_ARGS+=(-o "$output_filename")
+GPUSC_ARGS+=(-o "$OUTPUT_DEST/$output_filename")
 
 capture_option="$(gpu-screen-recorder --list-capture-options | fzf --prompt="Capture Device:" | cut -d'|' -f1)"
 GPUSC_ARGS+=(-w "$capture_option")
@@ -36,7 +39,7 @@ gpu-screen-recorder \
   -k hevc \
   -bm qp \
   -q very_high \
-  -tune quality \
+  -tune performance \
   -ac aac \
   "${GPUSC_ARGS[@]}"
 
