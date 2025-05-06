@@ -1,5 +1,5 @@
 PackageConfig(
-    target: "~/",
+    target: "/usr/local/bin",
     ignore_pats: [
         "\\.unboxrc(\\.ron)?$",
         "^\\.git.*$",
