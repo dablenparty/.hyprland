@@ -21,7 +21,7 @@ GPUSC_ARGS+=(-w "$capture_option")
 readarray -t selected_audio_apps < <(gpu-screen-recorder --list-application-audio | sort | fzf --multi --prompt="App Audio:")
 
 for app in "${selected_audio_apps[@]}"; do
-  GPUSC_ARGS+=(-a "app:$app")
+  GPUSC_ARGS+=(-a "$app Audio/app:$app")
 done
 
 selected_audio_devices=("Default Output/device:default_output" "Focusrite/alsa_input.usb-Focusrite_Scarlett_2i2_USB-00.HiFi__Mic1__source")
