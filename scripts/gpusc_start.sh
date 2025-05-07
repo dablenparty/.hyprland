@@ -19,17 +19,24 @@ GPUSC_ARGS+=(-o "$output_filename")
 capture_option="$(gpu-screen-recorder --list-capture-options | fzf --prompt="Capture Device:" | cut -d'|' -f1)"
 GPUSC_ARGS+=(-w "$capture_option")
 
-readarray -t selected_audio_apps < <(gpu-screen-recorder --list-application-audio | sort | fzf --multi --prompt="App Audio:")
+# keys are track names, values are devices
+declare -A audio_track_map
 
-for app in "${selected_audio_apps[@]}"; do
-  GPUSC_ARGS+=(-a "$app Audio/app:$app")
+while read -r app; do
+  audio_track_map["$app Audio"]="app:$app"
+done < <(gpu-screen-recorder --list-application-audio | sort | fzf --multi --prompt="App Audio:")
+
+audio_track_map["Focusrite"]="alsa_input.usb-Focusrite_Scarlett_2i2_USB-00.HiFi__Mic1__source"
+audio_track_map["Default Output"]="device:default_output"
+
+for key in "${!audio_track_map[@]}"; do
+  value=${audio_track_map[$key]}
+  GPUSC_ARGS+=(-a "$key/$value")
 done
 
-selected_audio_devices=("Default Output/device:default_output" "Focusrite/alsa_input.usb-Focusrite_Scarlett_2i2_USB-00.HiFi__Mic1__source")
-
-for dev in "${selected_audio_devices[@]}"; do
-  GPUSC_ARGS+=(-a "$dev")
-done
+printf -v combined_audio "%s|" "${audio_track_map[@]}"
+# remove trailing '|'
+combined_audio=${combined_audio:0:-1}
 
 # construct command from dynamic args
 GPUSC_ARGS=(
@@ -41,6 +48,7 @@ GPUSC_ARGS=(
   -q very_high
   -tune performance
   -ac aac
+  -a "Combined/$combined_audio"
   "${GPUSC_ARGS[@]}"
   "$@"
 )
