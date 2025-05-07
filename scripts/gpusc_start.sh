@@ -33,7 +33,8 @@ done
 
 GPUSC_ARGS=("${GPUSC_ARGS[@]}" "$@")
 
-gpu-screen-recorder \
+systemd-inhibit --what "sleep:idle:shutdown" --who "gpu-screen-recorder" --why "recording screen" \
+  gpu-screen-recorder \
   -f 60 \
   -fm cfr \
   -k hevc \
