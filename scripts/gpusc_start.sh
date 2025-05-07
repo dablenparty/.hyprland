@@ -26,7 +26,7 @@ while read -r app; do
   audio_track_map["$app Audio"]="app:$app"
 done < <(gpu-screen-recorder --list-application-audio | sort | fzf --multi --prompt="App Audio:")
 
-audio_track_map["Focusrite"]="alsa_input.usb-Focusrite_Scarlett_2i2_USB-00.HiFi__Mic1__source"
+audio_track_map["Focusrite"]="device:alsa_input.usb-Focusrite_Scarlett_2i2_USB-00.HiFi__Mic1__source"
 audio_track_map["Default Output"]="device:default_output"
 
 for key in "${!audio_track_map[@]}"; do
