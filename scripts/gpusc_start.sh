@@ -27,11 +27,14 @@ while read -r app; do
 done < <(gpu-screen-recorder --list-application-audio | sort | fzf --multi --prompt="App Audio:")
 
 audio_track_map["Focusrite"]="device:alsa_input.usb-Focusrite_Scarlett_2i2_USB-00.HiFi__Mic1__source"
-audio_track_map["Default Output"]="device:default_output"
+audio_track_map["Default Output"]="default_output"
 
 for key in "${!audio_track_map[@]}"; do
   value=${audio_track_map[$key]}
-  GPUSC_ARGS+=(-a "$key/$value")
+  # TODO: uncomment this when GPUSC re-implements audio track naming
+  # removed in this commit: https://git.dec05eba.com/gpu-screen-recorder/commit/?id=0cdc3599318f05a820b3c936f83c98b4b3d11567
+  # GPUSC_ARGS+=(-a "$key/$value")
+  GPUSC_ARGS+=(-a "$value")
 done
 
 printf -v combined_audio "%s|" "${audio_track_map[@]}"
@@ -48,7 +51,9 @@ GPUSC_ARGS=(
   -q very_high
   -tune performance
   -ac aac
-  -a "Combined/$combined_audio"
+  # TODO: see TODO above about audio track names
+  # -a "Combined/$combined_audio"
+  -a "$combined_audio"
   "${GPUSC_ARGS[@]}"
   "$@"
 )
