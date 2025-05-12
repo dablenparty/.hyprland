@@ -6,7 +6,7 @@ pkgrel=1
 pkgdesc="Hyprland provides the latest Wayland features, dynamic tiling, all the eyecandy, powerful plugins and much more, while still being lightweight and responsive"
 arch=(x86_64)
 url="https://hyprland.org/"
-license=('GPL')
+license=('BSD-3')
 depends=(
   aquamarine-git
   blueman
