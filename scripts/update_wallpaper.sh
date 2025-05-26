@@ -7,7 +7,7 @@ else
 fi
 
 # args must be separated for wal
-/usr/local/bin/gen_wal_colors.sh "$wallpaper_root"
+gen_wal_colors.sh "$wallpaper_root"
 
 # load $wallpaper
 source "$HOME/.cache/wal/colors.sh"
