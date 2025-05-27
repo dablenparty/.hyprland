@@ -1,0 +1,52 @@
+_pkgname="hypridle"
+pkgname="$_pkgname-git"
+pkgver=0.7.0.r0.g05878d9
+pkgrel=1
+pkgdesc="Hyprland utilities library used across the ecosystem"
+arch=('x86_64' 'aarch64')
+url="https://github.com/hyprwm/hypridle"
+license=('BSD-3-Clause')
+depends=(
+  'hyprlang-git>=0.4.0'
+  hyprutils-git
+  'sdbus-cpp>=2.0.0'
+  systemd
+  wayland
+)
+makedepends=(
+  cmake
+  git
+  hyprland-protocols-git
+  hyprland-scanner-git
+  ninja
+  wayland-protocols
+)
+provides=("$_pkgname=${pkgver/\.r*/}")
+conflicts=("$_pkgname")
+source=("git+$url.git")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_pkgname" || exit 1
+
+  printf "%s" "$(git describe --long --tags --abbrev=7 | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g')"
+}
+
+prepare() {
+  cd "$srcdir/$_pkgname" || exit 1
+
+  cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -S . -B ./build
+}
+
+build() {
+  cd "$srcdir/$_pkgname" || exit 1
+
+  cmake --build ./build --config Release --target hypridle -j"$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
+}
+
+package() {
+  cd "$srcdir/$_pkgname" || exit 1
+
+  DESTDIR="$pkgdir/" cmake --install build
+  install -Dm644 "$srcdir/$_pkgname/LICENSE" -t "$pkgdir/usr/share/licenses/$pkgname/"
+}
