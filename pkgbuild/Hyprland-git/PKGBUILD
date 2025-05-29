@@ -21,6 +21,7 @@ depends=(
   hypridle-git
   hyprland-qtutils-git
   hyprlang-git
+  hyprlock-git
   hyprpolkitagent-git
   hyprshot-git
   hyprutils-git
@@ -36,7 +37,6 @@ depends=(
   libxkbcommon
   libxrender
   mako
-  mpvlock-git
   mpvpaper
   nwg-look
   obsidian

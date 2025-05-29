@@ -1,17 +1,15 @@
 #!/usr/bin/env bash
 
-# don't launch multiple instances of mpvlock
+# don't launch multiple instances of hyprlock
 # WARN: don't use pkill here, otherwise that'd defeat the purpose of a lock screen
-if [[ -n "$(pidof mpvlock)" ]]; then
+if [[ -n "$(pidof hyprlock)" ]]; then
   exit 0
 fi
 
 # select a random placeholder and insert it into the config file
 placeholder="$(shuf -n 1 "$HOME/.config/hypr/.password_placeholders.txt")"
-sed -i -E "s/(placeholder_text\s*=)\s*(<i>.+<\/i>)/\1 <i>$placeholder<\/i>/g" "$HOME/.config/mpvlock/mpvlock.conf"
+sed -i -E "s/(placeholder_text\s*=)\s*(<i>.+<\/i>)/\1 <i>$placeholder<\/i>/g" "$HOME/.config/hypr/hyprlock.conf"
 
 # lock up
-uwsm app -- mpvlock
+uwsm app -- hyprlock
 # after unlock...
-# TODO: this is kinda nuclear, find another solution
-pkill -x mpvpaper
