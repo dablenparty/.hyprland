@@ -70,6 +70,7 @@ depends=(
   xcb-util-wm
   xdg-desktop-portal-gtk-git
   xdg-desktop-portal-hyprland-git
+  xdg-terminal-exec
   xorg-xwayland
   yazi
 )
