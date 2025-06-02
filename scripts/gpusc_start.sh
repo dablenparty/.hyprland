@@ -5,6 +5,7 @@ set -eo pipefail
 # TODO: cli args with getopts
 # for passing args to gpu-screen-recorder, pass all args that come after '--'
 OUTPUT_DEST="${OUTPUT_DEST:-/mnt/Recordings/GPUSC}"
+DEFAULT_MIC_SOURCE="alsa_input.usb-Focusrite_Scarlett_2i2_USB-00.HiFi__Mic1__source"
 declare -a GPUSC_ARGS
 
 read -rep "Title (leave blank for default): " title
@@ -13,28 +14,76 @@ if [[ -z "$title" ]]; then
   title="Video"
 fi
 
-printf -v output_filename "%s/%s_%s.mp4" "$OUTPUT_DEST" "$title" "$(date +"%Y-%m-%d_%H-%M-%S")"
+printf -v output_filename "%s/%s_%(%F_%H-%M-%S)T.mp4" "$OUTPUT_DEST" "$title"
 GPUSC_ARGS+=(-o "$output_filename")
 
-capture_option="$(gpu-screen-recorder --list-capture-options | fzf --prompt="Capture Device:" | cut -d'|' -f1)"
-GPUSC_ARGS+=(-w "$capture_option")
+capture_option="$(gpu-screen-recorder --list-capture-options | fzf --prompt="Capture Device:")"
+GPUSC_ARGS+=(-w "${capture_option%%|*}")
 
-# keys are track names, values are devices
+# keys are track names, values are devices/apps
 declare -A audio_track_map
 
-while read -r app; do
-  audio_track_map["$app Audio"]="app:$app"
-done < <(gpu-screen-recorder --list-application-audio | sort | fzf --multi --prompt="App Audio:")
+# if any app is making sound, allow the user to select it from a list
+audio_apps="$(gpu-screen-recorder --list-application-audio)"
+if [[ -n "$audio_apps" ]]; then
+  while read -r app; do
+    audio_track_map["$app Audio"]="app:$app"
+  done < <(printf "%s" "$audio_apps" | fzf --multi --prompt="App Audio:")
+fi
 
-audio_track_map["Focusrite"]="device:alsa_input.usb-Focusrite_Scarlett_2i2_USB-00.HiFi__Mic1__source"
-audio_track_map["Default Output"]="default_output"
+declare -a audio_devices
+i=1
+# some devices should be selected by default, such as default_output and my mic
+# keys are device ID's, values are the corresponding indices in $audio_devices
+declare -A default_devices
+default_devices["$DEFAULT_MIC_SOURCE"]=-1
+default_devices["default_output"]=-1
 
-for key in "${!audio_track_map[@]}"; do
-  value=${audio_track_map[$key]}
+# read all audio devices into an array while also checking if the device should
+# be selected by default; if so, it's index is saved.
+while read -r device; do
+  # format: <device_id>|<name>
+  device_id=${device%%|*}
+  idx=${default_devices[$device_id]}
+  if ((idx == -1)); then
+    default_devices[$device_id]=$i
+  fi
+  audio_devices+=("$device")
+  ((i++))
+done < <(gpu-screen-recorder --list-audio-devices)
+
+fzf_args=(fzf --multi '--prompt=Audio Devices:' --delimiter '|' --with-nth 2)
+
+# generate fzf select action for default devices
+declare -a fzf_bind_actions
+for device in "${!default_devices[@]}"; do
+  idx=${default_devices[$device]}
+  if ((idx == -1)); then
+    continue
+  fi
+  fzf_bind_actions+=("pos($idx)" "toggle" "up")
+done
+
+# join actions with '+' as delimiter
+if ((${#fzf_bind_actions} > 0)); then
+  printf -v fzf_bind_arg "%s+" "${fzf_bind_actions[@]}"
+  # trailing '+' is removed
+  fzf_args+=(--sync --bind "start:${fzf_bind_arg:0:-1}")
+fi
+
+# pair audio devices with their tracks
+while read -r device; do
+  device_id="${device%%|*}"
+  device_name="${device#*|}"
+  audio_track_map["$device_name"]="$device_id"
+done < <(printf "%s\n" "${audio_devices[@]}" | "${fzf_args[@]}")
+
+for track_name in "${!audio_track_map[@]}"; do
+  device=${audio_track_map[$track_name]}
   # TODO: uncomment this when GPUSC re-implements audio track naming
   # removed in this commit: https://git.dec05eba.com/gpu-screen-recorder/commit/?id=0cdc3599318f05a820b3c936f83c98b4b3d11567
-  # GPUSC_ARGS+=(-a "$key/$value")
-  GPUSC_ARGS+=(-a "$value")
+  # GPUSC_ARGS+=(-a "$track_name/$device")
+  GPUSC_ARGS+=(-a "$device")
 done
 
 printf -v combined_audio "%s|" "${audio_track_map[@]}"
@@ -58,10 +107,11 @@ GPUSC_ARGS=(
   "$@"
 )
 
-echo "GPUSC command: ${GPUSC_ARGS[*]}"
+printf "GPUSC command: %s\n" "${GPUSC_ARGS[*]}"
 
 # TODO : extract utils.sh
 read -rn 1 -p "Begin recording? [Y\n]" key
+echo
 case $key in
 y | Y | "") ;;
 *)
@@ -70,4 +120,4 @@ y | Y | "") ;;
   ;;
 esac
 
-systemd-inhibit --what "sleep:idle:shutdown" --who "gpu-screen-recorder" --why "recording screen" "${GPUSC_ARGS[@]}"
+systemd-inhibit --what "sleep:idle:shutdown" --who "$0" --why "recording screen ($capture_option)" "${GPUSC_ARGS[@]}"
