@@ -31,6 +31,11 @@ if [[ -n "$audio_apps" ]]; then
   done < <(printf "%s" "$audio_apps" | fzf --multi --prompt="App Audio:")
 fi
 
+# otherwise, gpusc allows recording apps that haven't launched yet
+while read -rep "Custom App Audio: " app && [[ -n "$app" ]]; do
+  audio_track_map["$app Audio"]="app:$app"
+done
+
 declare -a audio_devices
 i=1
 # some devices should be selected by default, such as default_output and my mic
