@@ -19,6 +19,6 @@ style:
     italic: false
     faint: true
 mpris:
-  players: [kew, spotify, vlc]
+  players: [kew, mpd, spotify, vlc]
 local:
   folder: "~/Music/.lyrics"
