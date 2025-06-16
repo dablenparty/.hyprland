@@ -51,7 +51,6 @@ depends=(
   sddm
   seatd
   speech-dispatcher
-  sway-audio-idle-inhibit-git
   swww-git
   tesseract
   tomlplusplus
