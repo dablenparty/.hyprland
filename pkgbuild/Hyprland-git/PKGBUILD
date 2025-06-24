@@ -50,6 +50,7 @@ depends=(
   rofi-wayland
   sddm
   seatd
+  socat
   speech-dispatcher
   swww-git
   tesseract
