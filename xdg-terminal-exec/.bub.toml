@@ -1,0 +1,10 @@
+target = "~/.config"
+exclude = [
+    '\.unboxrc.*$',
+    "^(README|LICEN[CS]E|COPYING).*$",
+    '\.bub\.toml$',
+    '^\.git.*$',
+]
+include = []
+link_root = false
+link_type = "absolute"

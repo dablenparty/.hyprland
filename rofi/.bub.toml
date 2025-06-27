@@ -1,0 +1,11 @@
+target = "~/.config/rofi"
+exclude = [
+    '\.unboxrc.*$',
+    "^(README|LICEN[CS]E|COPYING).*$",
+    '\.bub\.toml$',
+    '\.unboxrc(\.ron)?$',
+    '^\.git.*$',
+]
+include = []
+link_root = false
+link_type = "absolute"

@@ -1,0 +1,10 @@
+target = "~/.config/waypaper"
+exclude = [
+    '\.bub\.toml$',
+    '\.unboxrc.*$',
+    '^\.git.*$',
+    "^(README|LICEN[CS]E|COPYING).*$",
+]
+include = []
+link_root = false
+link_type = "absolute"

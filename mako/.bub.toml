@@ -1,0 +1,11 @@
+target = "~/.config/mako"
+exclude = [
+    "^(README|LICEN[CS]E|COPYING).*$",
+    '^\.git.*$',
+    '\.unboxrc(\.ron)?$',
+    '\.unboxrc.*$',
+    '\.bub\.toml$',
+]
+include = []
+link_root = false
+link_type = "absolute"

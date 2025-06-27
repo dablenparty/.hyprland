@@ -1,0 +1,11 @@
+target = "~/.config/wal"
+exclude = [
+    '^\.git.*$',
+    '\.unboxrc.*$',
+    '\.bub\.toml$',
+    '\.unboxrc(\.ron)?$',
+    "^(README|LICEN[CS]E|COPYING).*$",
+]
+include = []
+link_root = false
+link_type = "absolute"

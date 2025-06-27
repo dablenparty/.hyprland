@@ -1,0 +1,10 @@
+target = "~/.local/share/applications"
+exclude = [
+    '^\.git.*$',
+    '\.unboxrc.*$',
+    "^(README|LICEN[CS]E|COPYING).*$",
+    '\.bub\.toml$',
+]
+include = []
+link_root = false
+link_type = "absolute"

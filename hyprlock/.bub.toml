@@ -1,0 +1,11 @@
+target = "~/.config/hypr"
+exclude = [
+    '\.unboxrc(\.ron)?$',
+    "^(README|LICEN[CS]E|COPYING).*$",
+    '^\.git.*$',
+    '\.unboxrc.*$',
+    '\.bub\.toml$',
+]
+include = []
+link_root = false
+link_type = "absolute"
