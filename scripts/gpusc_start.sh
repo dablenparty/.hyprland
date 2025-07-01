@@ -4,15 +4,21 @@ set -eo pipefail
 
 # TODO: cli args with getopts
 # for passing args to gpu-screen-recorder, pass all args that come after '--'
-OUTPUT_DEST="${OUTPUT_DEST:-/mnt/Recordings/GPUSC}"
 DEFAULT_MIC_SOURCE="alsa_input.usb-Focusrite_Scarlett_2i2_USB-00.HiFi__Mic1__source"
-declare -a GPUSC_ARGS
+DEFAULT_TITLE="GPUSC"
+OUTPUT_DEST="${OUTPUT_DEST:-${XDG_VIDEOS_DIR:-$HOME/Videos}/GPUSC}"
 
-read -rep "Title (leave blank for default): " title
+if [[ ! -d "$OUTPUT_DEST" ]]; then
+  mkdir -vp "$OUTPUT_DEST"
+fi
+
+read -rep "Title (leave blank for $DEFAULT_TITLE): " title
 
 if [[ -z "$title" ]]; then
-  title="Video"
+  title="$DEFAULT_TITLE"
 fi
+
+declare -a GPUSC_ARGS
 
 printf -v output_filename "%s/%s_%(%F_%H-%M-%S)T.mp4" "$OUTPUT_DEST" "$title"
 GPUSC_ARGS+=(-o "$output_filename")
