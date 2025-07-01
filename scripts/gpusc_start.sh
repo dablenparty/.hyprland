@@ -24,7 +24,9 @@ printf -v output_filename "%s/%s_%(%F_%H-%M-%S)T.mp4" "$OUTPUT_DEST" "$title"
 GPUSC_ARGS+=(-o "$output_filename")
 
 capture_option="$(gpu-screen-recorder --list-capture-options | fzf --prompt="Capture Device:")"
-GPUSC_ARGS+=(-w "${capture_option%%|*}")
+# only keep text before first pipe '|'
+capture_option=${capture_option%%|*}
+GPUSC_ARGS+=(-w "$capture_option")
 
 # keys are track names, values are devices/apps
 declare -A audio_track_map
@@ -33,13 +35,13 @@ declare -A audio_track_map
 audio_apps="$(gpu-screen-recorder --list-application-audio)"
 if [[ -n "$audio_apps" ]]; then
   while read -r app; do
-    audio_track_map["$app Audio"]="app:$app"
+    audio_track_map["$app App"]="app:$app"
   done < <(printf "%s" "$audio_apps" | fzf --multi --prompt="App Audio:")
 fi
 
 # otherwise, gpusc allows recording apps that haven't launched yet
 while read -rep "Custom App Audio: " app && [[ -n "$app" ]]; do
-  audio_track_map["$app Audio"]="app:$app"
+  audio_track_map["$app App"]="app:$app"
 done
 
 declare -a audio_devices
@@ -82,18 +84,22 @@ if ((${#fzf_bind_actions} > 0)); then
   fzf_args+=(--sync --bind "start:${fzf_bind_arg:0:-1}")
 fi
 
-# pair audio devices with their tracks
+# select and pair audio devices with their tracks
 while read -r device; do
   device_id="${device%%|*}"
   device_name="${device#*|}"
   audio_track_map["$device_name"]="$device_id"
 done < <(printf "%s\n" "${audio_devices[@]}" | "${fzf_args[@]}")
 
+printf "Recording video from %s\n" "$capture_option"
+
+echo "Recording audio from:"
 for track_name in "${!audio_track_map[@]}"; do
   device=${audio_track_map[$track_name]}
   # TODO: uncomment this when GPUSC re-implements audio track naming
   # removed in this commit: https://git.dec05eba.com/gpu-screen-recorder/commit/?id=0cdc3599318f05a820b3c936f83c98b4b3d11567
   # GPUSC_ARGS+=(-a "$track_name/$device")
+  printf " - %s\n" "$track_name"
   GPUSC_ARGS+=(-a "$device")
 done
 
