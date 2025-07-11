@@ -3,12 +3,14 @@
 set -e
 
 paru --rebuild=all --sudoloop -S blueman \
+  boxunbox \
   devtools \
+  dot-hyprland/hypridle-git \
   firefox \
   foot \
-  dot-hyprland/hypridle-git \
   hyprlock-git \
   hyprshot-git \
+  keyd \
   mako \
   mpvpaper \
   obsidian \
@@ -27,3 +29,5 @@ paru --rebuild=all --sudoloop -S blueman \
   waybar \
   waypaper \
   xdg-terminal-exec
+
+# TODO: unbox things and setup services
