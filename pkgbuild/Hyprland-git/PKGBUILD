@@ -52,6 +52,7 @@ depends=(
   xdg-desktop-portal-gtk-git
   xdg-desktop-portal-hyprland-git
   xorg-xwayland
+  # not required, but every WM needs a file manager imo
   yazi
 )
 makedepends=(
@@ -83,9 +84,11 @@ pkgver() {
 prepare() {
   cd "$srcdir/$_pkgname" || exit 1
 
-  git config submodule.subprojects/hyprland-protocols.url "file://$srcdir/hyprland-protocols"
-  git config submodule.subprojects/udis86.url "file://$srcdir/udis86"
-  git config submodule.subprojects/tracy.url "file://$srcdir/tracy"
+  git submodule init
+
+  git config submodule.hyprland-protocols.url "file://$srcdir/hyprland-protocols"
+  git config submodule.udis86.url "file://$srcdir/udis86"
+  git config submodule.tracy.url "file://$srcdir/tracy"
 
   git -c protocol.file.allow=always submodule update
 }
