@@ -27,8 +27,10 @@ source=(
   "git+$url"
   "git+https://github.com/PancakeTAS/dxbc.git"
   "git+https://github.com/trailofbits/pe-parse"
+  "git+https://github.com/raysan5/raylib.git"
+  "git+https://github.com/ToruNiina/toml11.git"
 )
-sha256sums=('SKIP' 'SKIP' 'SKIP')
+sha256sums=('SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP')
 
 pkgver() {
   cd "$srcdir/$_pkgname" || exit 1
@@ -41,8 +43,10 @@ prepare() {
 
   git submodule init
 
-  git config submodule.dxbc.url "file://$srcdir/dxbc"
-  git config submodule.pe-parse.url "file://$srcdir/pe-parse"
+  git config submodule.dxbc.url "file://$srcdir/thirdparty/dxbc"
+  git config submodule.pe-parse.url "file://$srcdir/thirdparty/pe-parse"
+  git config submodule.raylib.url "file://$srcdir/thirdparty/raylib"
+  git config submodule.toml11.url "file://$srcdir/thirdparty/toml11"
 
   git -c protocol.file.allow=always submodule update
 }
