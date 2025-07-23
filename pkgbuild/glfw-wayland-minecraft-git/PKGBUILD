@@ -1,0 +1,59 @@
+_pkgname="glfw-wayland-minecraft"
+pkgname="$_pkgname-git"
+pkgver=r4832.4de45a5
+pkgrel=1
+pkgdesc="A fork of glfw with changes required to run Minecraft natively on Wayland"
+arch=('x86_64' 'aarch64')
+url="https://github.com/dablenparty/glfw-wayland-minecraft"
+license=('ZLIB')
+depends=(
+  libgl
+  libxkbcommon
+  vulkan-icd-loader
+  wayland
+  wayland-protocols
+)
+makedepends=(
+  cmake
+  doxygen
+  extra-cmake-modules
+  git
+  libxcursor
+  libxi
+  libxinerama
+  libxrandr
+  mesa
+  vulkan-headers
+)
+provides=("glfw=$pkgver")
+conflicts=("$_pkgname" 'glfw')
+source=(
+  "git+$url"
+)
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_pkgname" || exit 1
+
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short=7 HEAD)"
+}
+
+build() {
+  cd "$srcdir/$_pkgname" || exit 1
+
+  cmake -B build \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX="/usr" \
+    -DBUILD_SHARED_LIBS=ON \
+    -DCMAKE_INSTALL_LIBDIR=lib \
+    -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON .
+
+  cmake --build build
+}
+
+package() {
+  cd "$srcdir/$_pkgname" || exit 1
+
+  DESTDIR="$pkgdir" cmake --install build
+  install -Dm644 "LICENSE.md" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}
