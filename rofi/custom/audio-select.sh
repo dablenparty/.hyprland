@@ -57,7 +57,7 @@ for ((i = 0; i < source_count; i++)); do
 
 done
 
-selected_idx="$(for ((i = 0; i < source_count; i++)); do echo "${source_names[$i]}"; done | rofi -dmenu -format "i" -i -p "Audio Device:")"
+selected_idx="${ printf "%s\n" "${source_names[@]}" | rofi -dmenu -format "i" -i -p "Audio Device:"; }"
 
 if [[ -z "$selected_idx" ]]; then
   exit 0
@@ -68,7 +68,7 @@ sink="${sinks[$selected_idx]}"
 
 printf "Selected Source Index: %d\nName: %s\Description: %s\n" "$selected_idx" "$sink" "$source_name"
 
-inputs="$(pactl list sink-inputs short | cut -f 1)"
+inputs="${ pactl list sink-inputs short | cut -f 1; }"
 
 for input in $inputs; do
   pactl move-sink-input "$input" "$sink"

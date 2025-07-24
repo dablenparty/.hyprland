@@ -44,7 +44,7 @@ if (($# < 1)); then
 fi
 
 # -e is a GNU option
-input_file="$(realpath -e "$1")"
+input_file="${ realpath -e "$1"; }"
 if [[ -n "$2" ]]; then
   output_file="$2"
 else

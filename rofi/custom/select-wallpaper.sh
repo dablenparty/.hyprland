@@ -8,8 +8,8 @@ if [[ ! -d "$wallpaper_root" ]]; then
 fi
 
 # read into an array for index access later
-readarray -t all_files <<<"$(fd -tf --color=never --absolute-path . "$wallpaper_root")"
-selected_idx="$(for p in "${all_files[@]}"; do echo -en "$(basename "$p")\0icon\x1f$p\n"; done | rofi -dmenu -format "i" -i -show-icons -p "Wallpaper")"
+readarray -t all_files <<<"${ fd -tf --color=never --absolute-path . "$wallpaper_root"; }"
+selected_idx="${ for p in "${all_files[@]}"; do echo -en "$(basename "$p")\0icon\x1f$p\n"; done | rofi -dmenu -format "i" -i -show-icons -p "Wallpaper"; }"
 
 if [[ -z "$selected_idx" ]]; then
   exit 0

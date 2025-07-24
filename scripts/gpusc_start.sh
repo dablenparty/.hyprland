@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 set -eo pipefail
+# run last command of pipe in current shell, not a subshell
+shopt -s lastpipe
 
 # TODO: cli args with getopts
 # for passing args to gpu-screen-recorder, pass all args that come after '--'
@@ -23,7 +25,7 @@ declare -a GPUSC_ARGS
 printf -v output_filename "%s/%s_%(%F_%H-%M-%S)T.mp4" "$OUTPUT_DEST" "$title"
 GPUSC_ARGS+=(-o "$output_filename")
 
-capture_option="$(gpu-screen-recorder --list-capture-options | fzf --prompt="Capture Device:")"
+capture_option="${ gpu-screen-recorder --list-capture-options | fzf --prompt="Capture Device:"; }"
 # only keep text before first pipe '|'
 capture_option=${capture_option%%|*}
 GPUSC_ARGS+=(-w "$capture_option")
@@ -32,11 +34,11 @@ GPUSC_ARGS+=(-w "$capture_option")
 declare -A audio_track_map
 
 # if any app is making sound, allow the user to select it from a list
-audio_apps="$(gpu-screen-recorder --list-application-audio)"
+audio_apps="${ gpu-screen-recorder --list-application-audio; }"
 if [[ -n "$audio_apps" ]]; then
   while read -r app; do
     audio_track_map["$app App"]="app:$app"
-  done < <(printf "%s" "$audio_apps" | fzf --multi --prompt="App Audio:")
+  done <<<${ printf "%s" "$audio_apps" | fzf --multi --prompt="App Audio:"; }
 fi
 
 # otherwise, gpusc allows recording apps that haven't launched yet
@@ -63,7 +65,7 @@ while read -r device; do
   fi
   audio_devices+=("$device")
   ((i++))
-done < <(gpu-screen-recorder --list-audio-devices)
+done <<<${ gpu-screen-recorder --list-audio-devices; }
 
 fzf_args=(fzf --multi '--prompt=Audio Devices:' --delimiter '|' --with-nth 2)
 
@@ -89,7 +91,7 @@ while read -r device; do
   device_id="${device%%|*}"
   device_name="${device#*|}"
   audio_track_map["$device_name"]="$device_id"
-done < <(printf "%s\n" "${audio_devices[@]}" | "${fzf_args[@]}")
+done <<<${ printf "%s\n" "${audio_devices[@]}" | "${fzf_args[@]}"; }
 
 printf "Recording video from %s\n" "$capture_option"
 

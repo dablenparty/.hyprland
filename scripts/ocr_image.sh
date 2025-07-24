@@ -36,11 +36,11 @@ if (($# != 1)); then
   exit 1
 fi
 
-notif_id="$(notify-send --transient --print-id --urgency low --expire-time 10000 "Processing OCR...")"
-image="$(realpath -e "$1")"
+notif_id="${ notify-send --transient --print-id --urgency low --expire-time 10000 "Processing OCR..."; }"
+image="${ realpath -e "$1"; }"
 # upscale image
 upscaled_path="${image%/*}/upscaled_${image##*/}"
 # TODO: notify of errors
 upscayl -i "$image" -o "$upscaled_path"
-wl-copy "$(tesseract "$upscaled_path" stdout)"
+wl-copy "${ tesseract "$upscaled_path" stdout; }"
 notify-send --urgency normal --expire-time 3500 --replace-id "$notif_id" "Copied OCR to clipboard!"
