@@ -128,6 +128,7 @@ printf "GPUSC command: %s\n" "${GPUSC_ARGS[*]}"
 
 # TODO : extract utils.sh
 read -rn 1 -p "Begin recording? [Y\n]" key
+# print a newline because read doesn't
 echo
 case $key in
 y | Y | "") ;;
@@ -137,4 +138,4 @@ y | Y | "") ;;
   ;;
 esac
 
-systemd-inhibit --what "sleep:idle:shutdown" --who "$0" --why "recording screen ($capture_option)" "${GPUSC_ARGS[@]}"
+exec systemd-inhibit --what "sleep:idle:shutdown" --who "${0##*/}" --why "recording screen ($capture_option)" "${GPUSC_ARGS[@]}"
