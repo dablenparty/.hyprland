@@ -110,12 +110,21 @@ combined_audio=${combined_audio:0:-1}
 # construct command from dynamic args
 GPUSC_ARGS=(
   gpu-screen-recorder
+  # 60fps
   -f 60
+  # constant framerate
   -fm cfr
-  -k hevc
+  # video encoder
+  -k hevc_10bit
+  # constant quality bitrate
   -bm qp
+  # full color range
+  -cr full
+  # very high quality
   -q very_high
-  -tune performance
+  # set multipass, b frames, preset for NVIDIA
+  -tune quality
+  # audio encoder (I have issues with opus)
   -ac aac
   # TODO: see TODO above about audio track names
   # -a "Combined/$combined_audio"
