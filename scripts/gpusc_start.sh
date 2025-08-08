@@ -7,22 +7,29 @@ shopt -s lastpipe
 # TODO: cli args with getopts
 # for passing args to gpu-screen-recorder, pass all args that come after '--'
 DEFAULT_MIC_SOURCE="alsa_input.usb-Focusrite_Scarlett_2i2_USB-00.HiFi__Mic1__source"
-DEFAULT_TITLE="GPUSC"
+DEFAULT_TITLE="gpusc"
 OUTPUT_DEST="${OUTPUT_DEST:-${XDG_VIDEOS_DIR:-$HOME/Videos}/GPUSC}"
 
 if [[ ! -d "$OUTPUT_DEST" ]]; then
   mkdir -vp "$OUTPUT_DEST"
 fi
 
-read -rep "Title (leave blank for $DEFAULT_TITLE): " title
+while true; do
+  read -rep "Title (leave blank for $DEFAULT_TITLE): " title
 
-if [[ -z "$title" ]]; then
-  title="$DEFAULT_TITLE"
-fi
+  if [[ -z "$title" ]]; then
+    title="$DEFAULT_TITLE"
+  fi
+
+  printf -v output_filename "%s/%s_%(%F_%H-%M-%S)T.mp4" "$OUTPUT_DEST" "$title"
+  if [[ -e "$output_filename" ]]; then
+    printf "error: '%s' already exists!\n" "$output_filename" 1>&2
+  else
+    break
+  fi
+done
 
 declare -a GPUSC_ARGS
-
-printf -v output_filename "%s/%s_%(%F_%H-%M-%S)T.mp4" "$OUTPUT_DEST" "$title"
 GPUSC_ARGS+=(-o "$output_filename")
 
 capture_option="${ gpu-screen-recorder --list-capture-options | fzf --prompt="Capture Device:"; }"
