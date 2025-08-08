@@ -38,7 +38,7 @@ audio_apps="${ gpu-screen-recorder --list-application-audio; }"
 if [[ -n "$audio_apps" ]]; then
   while read -r app; do
     audio_track_map["$app App"]="app:$app"
-  done <<<${ printf "%s" "$audio_apps" | fzf --multi --prompt="App Audio:"; }
+  done <<<"${ printf "%s" "$audio_apps" | fzf --multi --prompt="App Audio:"; }"
 fi
 
 # otherwise, gpusc allows recording apps that haven't launched yet
@@ -65,7 +65,7 @@ while read -r device; do
   fi
   audio_devices+=("$device")
   ((i++))
-done <<<${ gpu-screen-recorder --list-audio-devices; }
+done <<<"${ gpu-screen-recorder --list-audio-devices; }"
 
 fzf_args=(fzf --multi '--prompt=Audio Devices:' --delimiter '|' --with-nth 2)
 
@@ -91,7 +91,7 @@ while read -r device; do
   device_id="${device%%|*}"
   device_name="${device#*|}"
   audio_track_map["$device_name"]="$device_id"
-done <<<${ printf "%s\n" "${audio_devices[@]}" | "${fzf_args[@]}"; }
+done <<<"${ printf "%s\n" "${audio_devices[@]}" | "${fzf_args[@]}"; }"
 
 printf "Recording video from %s\n" "$capture_option"
 
