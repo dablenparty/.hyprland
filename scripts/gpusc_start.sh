@@ -43,7 +43,7 @@ declare -A audio_track_map
 # if any app is making sound, allow the user to select it from a list
 audio_apps="${ gpu-screen-recorder --list-application-audio; }"
 if [[ -n "$audio_apps" ]]; then
-  while read -r app; do
+  while read -r app && [[ -n "$app" ]]; do
     audio_track_map["$app App"]="app:$app"
   done <<<"${ printf "%s" "$audio_apps" | fzf --multi --prompt="App Audio:"; }"
 fi
