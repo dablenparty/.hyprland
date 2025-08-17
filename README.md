@@ -4,7 +4,17 @@ My Hyprland dotfiles.
 
 ## Installation
 
-Installation is achieved with my custom [PKGBUILD](pkgbuild/PKGBUILD).
+Hyprland has become stable enough that you can stick to tagged releases:
+
+```bash
+sudo pacman -S hyprland
+```
+
+Or, you can continue with the custom PKGBUILD.
+
+### Custom PKGBUILD
+
+Installation can be achieved with my custom [PKGBUILD](pkgbuild/PKGBUILD).
 
 You'll need `paru` so that the PKGBUILD can be updated with your system. Add the following to your `paru.conf` or use [the conf in this repo](paru/paru.conf):
 
@@ -30,7 +40,7 @@ Experimental = true
 ```
 
 > [!IMPORTANT]
-> Be careful with `bluetoothctl`. Some of its subcommands can cause Hyprland to just logout or crash. It's tracked by [this GitHub issue](https://github.com/bluez/bluez/issues/996).
+> This doesn't appear to be necessary anymore, but I haven't been able to confirm that reliably. For now, enable them.
 
 ### Post-Installation
 
