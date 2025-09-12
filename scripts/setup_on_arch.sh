@@ -75,6 +75,8 @@ paru --needed --rebuild=all --sudoloop --noconfirm -S \
   blueman \
   dot-hyprland/hypridle-git \
   dot-hyprland/hyprutils-git \
+  dysk \
+  dust \
   eza \
   fd \
   firefox \
