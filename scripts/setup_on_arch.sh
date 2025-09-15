@@ -85,6 +85,7 @@ paru --needed --rebuild=all --sudoloop --noconfirm -S \
   fzf \
   hyprland \
   hyprlock-git \
+  hyprpolkitagent \
   hyprshot-git \
   jenv \
   lib32-nvidia-utils \
