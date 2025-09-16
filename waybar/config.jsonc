@@ -92,6 +92,7 @@
     "title-len": 40,
     "artist-len": 25,
     "album-len": 25,
+    "player": "mpd",
     "ignored-players": [
       "firefox"
     ],
