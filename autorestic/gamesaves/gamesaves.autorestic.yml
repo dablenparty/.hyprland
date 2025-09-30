@@ -1,0 +1,83 @@
+version: 2
+
+global:
+  # forget policies sort by recency
+  forget:
+    # don't delete ANYTHING FROM HERE!!!
+    keep-last: 999999999
+
+
+backends:
+  the-bin:
+    type: local
+    path: /mnt/TheBin/Autorestic Game Saves
+    # env: AUTORESTIC_THE_BIN_RESTIC_PASSWORD
+    requireKey: true
+
+locations:
+  art-of-rally:
+    from:
+      # saves
+      - ~/.config/unity3d/Funselektor Labs/art of rally/cloud
+      # config
+      - ~/.config/unity3d/Funselektor Labs/art of rally/prefs
+    to: the-bin
+    options:
+      backup:
+        tag:
+          - store:steam
+          - cloud
+  assassins-creed-iv-black-flag:
+    # WARN: I'm not sure if the UUID changes or not...
+    from:
+      # saves
+      - ~/Games/ubisoft-connect/drive_c/Program Files (x86)/Ubisoft/Ubisoft Game Launcher/savegames/3e599603-0040-4ebd-b033-cd859aef7d0d/273
+      # config
+      - ~/Documents/Assassin's Creed IV Black Flag
+    to: the-bin
+    options:
+      backup:
+        tag:
+          - series:assassins-creed
+          - store:ubisoft
+          # means the saves should be cloud-synced
+          - cloud
+  elden-ring:
+    # saves and config
+    from: ~/.steam/steam/steamapps/compatdata/1245620/pfx/drive_c/users/steamuser/AppData/Roaming/EldenRing
+    to: the-bin
+    options:
+      backup:
+        tag:
+          - series:dark-souls
+          - store:steam
+          - cloud
+  middle-earth-shadow-of-war:
+    from: ~/.steam/steam/userdata/147569284/356190/remote
+    to: the-bin
+    options:
+      backup:
+        tag:
+          - series:middle-earth
+          - store:steam
+          - cloud
+  risk-of-rain-2:
+    # saves only
+    from: ~/.steam/steam/userdata/147569284/632360/remote/UserProfiles
+    to: the-bin
+    options:
+      backup:
+        tag:
+          - series:risk-of-rain
+          - store:steam
+          - cloud
+  stalker-2-heart-of-chornobyl:
+    # saves and config
+    from: ~/.steam/steam/steamapps/compatdata/1643320/pfx/drive_c/users/steamuser/AppData/Local/Stalker2/Saved
+    to: the-bin
+    options:
+      backup:
+        tag:
+          - series:stalker
+          - store:steam
+          - cloud
