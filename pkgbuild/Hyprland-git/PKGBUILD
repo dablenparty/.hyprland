@@ -1,7 +1,7 @@
 # Maintainer: Your Name <youremail@domain.com>
 _pkgname=Hyprland
 pkgname="${_pkgname}-git"
-pkgver=0.49.0.r127.g2796ec1
+pkgver=0.51.0.r49.g38c1e72
 pkgrel=1
 pkgdesc="Hyprland provides the latest Wayland features, dynamic tiling, all the eyecandy, powerful plugins and much more, while still being lightweight and responsive"
 arch=(x86_64)
@@ -24,6 +24,7 @@ depends=(
   hyprwayland-scanner-git
   kitty
   libdisplay-info
+  libheif
   libinput
   libliftoff
   libx11
@@ -86,9 +87,9 @@ prepare() {
 
   git submodule init
 
-  git config submodule.hyprland-protocols.url "file://$srcdir/hyprland-protocols"
-  git config submodule.udis86.url "file://$srcdir/udis86"
-  git config submodule.tracy.url "file://$srcdir/tracy"
+  git config submodule.hyprland-protocols.url "file://$srcdir/subprojects/hyprland-protocols"
+  git config submodule.udis86.url "file://$srcdir/subprojects/udis86"
+  git config submodule.tracy.url "file://$srcdir/subprojects/tracy"
 
   git -c protocol.file.allow=always submodule update
 }
