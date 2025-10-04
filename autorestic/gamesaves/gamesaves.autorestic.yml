@@ -16,11 +16,8 @@ backends:
 
 locations:
   art-of-rally:
-    from:
-      # saves
-      - ~/.config/unity3d/Funselektor Labs/art of rally/cloud
-      # config
-      - ~/.config/unity3d/Funselektor Labs/art of rally/prefs
+    # saves
+    from: ~/.config/unity3d/Funselektor Labs/art of rally/cloud
     to: the-bin
     options:
       backup:
@@ -28,12 +25,8 @@ locations:
           - store:steam
           - cloud
   assassins-creed-iv-black-flag:
-    # WARN: I'm not sure if the UUID changes or not...
-    from:
-      # saves
-      - ~/Games/ubisoft-connect/drive_c/Program Files (x86)/Ubisoft/Ubisoft Game Launcher/savegames/3e599603-0040-4ebd-b033-cd859aef7d0d/273
-      # config
-      - ~/Documents/Assassin's Creed IV Black Flag
+    # saves
+    from: ~/Games/ubisoft-connect/drive_c/Program Files (x86)/Ubisoft/Ubisoft Game Launcher/savegames/3e599603-0040-4ebd-b033-cd859aef7d0d/273
     to: the-bin
     options:
       backup:
@@ -72,8 +65,14 @@ locations:
           - store:steam
           - cloud
   stalker-2-heart-of-chornobyl:
-    # saves and config
-    from: ~/.steam/steam/steamapps/compatdata/1643320/pfx/drive_c/users/steamuser/AppData/Local/Stalker2/Saved
+    from:
+      # saves and config
+      - ~/.steam/steam/steamapps/compatdata/1643320/pfx/drive_c/users/steamuser/AppData/Local/Stalker2/Saved
+      # mods
+      - ~/.steam/steam/steamapps/common/S.T.A.L.K.E.R. 2 Heart of Chornobyl/Stalker2/Content/Paks/~mods
+      # achievement enabler
+      - ~/.steam/steam/steamapps/common/S.T.A.L.K.E.R. 2 Heart of Chornobyl/Stalker2/Binaries/Win64/winmm.dll
+      - ~/.steam/steam/steamapps/common/S.T.A.L.K.E.R. 2 Heart of Chornobyl/Stalker2/Binaries/Win64/winmm.log
     to: the-bin
     options:
       backup:
