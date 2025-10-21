@@ -1,0 +1,16 @@
+[Unit]
+Description=mpd-mpris: An implementation of the MPRIS protocol for MPD
+PartOf=mpd.service
+Requisite=mpd.service
+After=mpd.service
+Requisite=playerctld.service
+After=playerctld.service
+
+[Service]
+ExecStart=/usr/bin/env mpd-mpris -no-instance -host "127.0.0.1" -port 6606
+Restart=on-failure
+Type=dbus
+BusName=org.mpris.MediaPlayer2.mpd
+
+[Install]
+WantedBy=default.target

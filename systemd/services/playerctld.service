@@ -1,0 +1,17 @@
+[Unit]
+Description=Keep track of media player activity
+After=sound.target
+Requisite=sound.target
+
+[Service]
+Type=forking
+# if playerctld is already running, it might crash trying to start again
+# ExecStart=/usr/bin/env sh -c 'pkill playerctld && pidwait playerctld; tries=0; while ((tries < MAX_TRIES)) && ! pgrep playerctld; do playerctld daemon && exit 0 || tries=$((tries + 1)) && sleep 5; done; exit 1'
+# Environment=MAX_TRIES=5
+ExecStart=/usr/bin/env playerctld daemon
+ExecReload=kill -SIGTERM $MAINPID
+Restart=on-failure
+BusName=org.mpris.MediaPlayer2.playerctld
+
+[Install]
+WantedBy=default.target
