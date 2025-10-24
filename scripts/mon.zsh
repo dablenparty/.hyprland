@@ -41,7 +41,7 @@ enable)
     exit 0
   fi
   # relative link
-  ln -vs "../$monitor" "$active_monitor_dir/$monitor.conf"
+  ln -vs "../$monitor.conf" "$active_monitor_dir/$monitor.conf"
   hyprctl reload
   ;;
 disable)
