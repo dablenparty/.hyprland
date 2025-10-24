@@ -1,0 +1,3 @@
+Use generate_rules.zsh to generate udev rules for your GPU's.
+This is intended for use on laptops, although it can work for
+other NVIDIA+AMD dual-gpu systems.

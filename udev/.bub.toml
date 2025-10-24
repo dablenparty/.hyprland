@@ -1,0 +1,10 @@
+target = "/etc/udev"
+exclude = [
+    '\.unboxrc.*$',
+    '\.bub\.toml$',
+    '^\.git.*$',
+    "^(README|LICEN[CS]E|COPYING).*$",
+]
+include = ["rules\\.d"]
+link_root = false
+link_type = "absolute"
