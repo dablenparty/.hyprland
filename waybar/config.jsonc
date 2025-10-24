@@ -1,6 +1,7 @@
 {
   "layer": "top",
   "modules-left": [
+    "battery",
     "cpu",
     "memory",
     "network",
@@ -15,6 +16,22 @@
     "tray",
     "clock"
   ],
+  "battery": {
+    "interval": 60,
+    "states": {
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "{icon} {capacity}%",
+    "format-icons": [
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    "max-length": 25
+  },
   "pulseaudio": {
     "tooltip": true,
     "tooltip-format": "{desc}",

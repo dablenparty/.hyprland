@@ -139,6 +139,18 @@ window#waybar.hidden {
 	/*background: #1A1826;*/
 }
 
+#battery {
+	margin-top: 6px;
+	margin-left: 8px;
+	padding-left: 10px;
+	margin-bottom: 0px;
+	padding-right: 10px;
+	border-radius: 10px;
+	transition: none;
+	color: #FC6D4C;
+	background: #161320;
+	border: 2px solid #FC6D4C;
+}
 #memory {
 	margin-top: 6px;
 	margin-left: 8px;
