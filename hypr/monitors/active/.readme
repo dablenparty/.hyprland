@@ -1,0 +1,2 @@
+symlink a base AND your active monitor configs into this dir in the config dir, i.e.:
+~/.config/hypr/monitors/active/link-here.conf

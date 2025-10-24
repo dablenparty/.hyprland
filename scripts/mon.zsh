@@ -3,14 +3,15 @@
 set -e
 setopt pipefail
 
-hyprconf_dir="$HOME/.config/hypr"
+hyprconf_dir="${XDG_CONFIG_HOME:-$HOME/.config}/hypr"
+active_monitor_dir="$hyprconf_dir/monitors/active"
 
 print_help() {
-  print 'usage: mon <enable|disable> [gpu-port]'
+  print 'usage: mon <enable|disable> [monitor-slug]'
 }
 
-function check_disabled {
-  rg -q "monitor.*${1:?missing argument gpu_port},disable" "$hyprconf_dir"/monitors.conf
+check_enabled() {
+  fd -q "${1:?missing argument}(\.conf)?$" "$hyprconf_dir/monitors/active"
   return $?
 }
 
@@ -26,33 +27,29 @@ for conf in "$hyprconf_dir"/monitors/*.conf; do
   all_monitors["$conf_name"]="$conf"
 done
 
+# enable | disable
 cmd="$1"
-# TODO: pretty fzf
-gpu_port="${2:-$(print "${(@kFQ)all_monitors}" | fzf --prompt="Monitor: ")}"
-# TODO: verify gpu port has a config
-
-# sed can comment/uncomment with properly crafted find & replace commands (s// commands)
-# removing the line is harder
-source_pattern="source.*monitors\/$gpu_port\.conf$"
-disable_pattern="monitor.*$gpu_port,disable"
+# FIXME: completion funcs because typing the slugs is a pain and this below isn't very ergonomic
+monitor="${2:-$(print "${(@kFQ)all_monitors}" | fzf --prompt="Monitor: ")}"
 
 # WARN: without --follow-symlinks, sed replaces symlinks with a file.
 # see: https://unix.stackexchange.com/a/192017
 case "$cmd" in
 enable)
-  if ! check_disabled "$gpu_port"; then
-    printf '%s is already enabled!'
+  if check_enabled "$monitor"; then
+    printf '%s is already enabled!\n' "$monitor"
     exit 0
   fi
-  sed -Ei --follow-symlinks "/$disable_pattern/d; s/^#.*($source_pattern)/\1/" "$hyprconf_dir"/monitors.conf
+  # relative link
+  ln -vs "../$monitor" "$active_monitor_dir/$monitor.conf"
   hyprctl reload
   ;;
 disable)
-  if check_disabled "$gpu_port"; then
-    printf "%s is already disabled!\n" "$gpu_port"
+  if ! check_enabled "$monitor"; then
+    printf "%s is already disabled!\n" "$monitor"
     exit 0
   fi
-  sed -Ei --follow-symlinks "s/$source_pattern/# \0/; /$source_pattern/a monitor = $gpu_port,disable" "$hyprconf_dir"/monitors.conf
+  rm -v "$active_monitor_dir/$monitor.conf"
   hyprctl reload
   ;;
 *)
