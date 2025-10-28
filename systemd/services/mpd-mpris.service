@@ -9,6 +9,7 @@ After=playerctld.service
 [Service]
 ExecStart=/usr/bin/env mpd-mpris -no-instance -host "127.0.0.1" -port 6606
 Restart=on-failure
+RestartSec=2
 Type=dbus
 BusName=org.mpris.MediaPlayer2.mpd
 

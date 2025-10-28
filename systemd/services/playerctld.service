@@ -11,6 +11,7 @@ Type=forking
 ExecStart=/usr/bin/env playerctld daemon
 ExecReload=kill -SIGTERM $MAINPID
 Restart=on-failure
+RestartSec=2
 BusName=org.mpris.MediaPlayer2.playerctld
 
 [Install]
