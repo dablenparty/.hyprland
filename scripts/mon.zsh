@@ -7,7 +7,7 @@ hyprconf_dir="${XDG_CONFIG_HOME:-$HOME/.config}/hypr"
 active_monitor_dir="$hyprconf_dir/monitors/active"
 
 print_help() {
-  print 'usage: mon <enable|disable> [monitor-slug]'
+  print 'usage: mon <enable|disable|show> [monitor-slug]'
 }
 
 check_enabled() {
@@ -27,10 +27,9 @@ for conf in "$hyprconf_dir"/monitors/*.conf; do
   all_monitors["$conf_name"]="$conf"
 done
 
-# enable | disable
 cmd="$1"
-# FIXME: completion funcs because typing the slugs is a pain and this below isn't very ergonomic
-monitor="${2:-$(print "${(@kFQ)all_monitors}" | fzf --prompt="Monitor: ")}"
+# remove .conf from end if it's there
+monitor="${2%.conf}"
 
 # WARN: without --follow-symlinks, sed replaces symlinks with a file.
 # see: https://unix.stackexchange.com/a/192017
@@ -51,6 +50,11 @@ disable)
   fi
   rm -v "$active_monitor_dir/$monitor.conf"
   hyprctl reload
+  ;;
+show)
+  # TODO: show [active]: shows all/active monitor confs
+  echo "error: not yet implemented"
+  exit 3
   ;;
 *)
   printf "error: unknown command '%s'\n" "$cmd"

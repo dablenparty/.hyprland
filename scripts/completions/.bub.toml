@@ -1,0 +1,11 @@
+target = "/usr/share/zsh/site-functions"
+exclude = [
+    '^\.git.*$',
+    '\.bub\.toml$',
+    '^setup_on_arch\..*$',
+    '\.unboxrc.*$',
+    "^(README|LICEN[CS]E|COPYING).*$",
+]
+include = []
+link_root = false
+link_type = "absolute"
