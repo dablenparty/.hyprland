@@ -1,0 +1,11 @@
+target = "~/.config/hypr/monitors/active"
+exclude = [
+    '^\.git.*$',
+    '\.unboxrc.*$',
+    '\.unboxrc(\.ron)?$',
+    '\.bub\.toml$',
+    "^(README|LICEN[CS]E|COPYING).*$",
+]
+include = ['^.+\.conf$']
+link_root = true
+link_type = "absolute"
