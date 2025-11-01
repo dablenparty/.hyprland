@@ -1,3 +1,4 @@
 export HYPRCURSOR_SIZE=24
 export HYPRSHOT_DIR="${XDG_PICTURES_DIR:-$HOME/Pictures}/hyprshot"
-export AQ_DRM_DEVICES="/dev/dri/amd-igpu:/dev/dri/nvidia-dgpu:/dev/dri/card0:/dev/dri/card1:/dev/dri/card2"
+# make sure you have the udev rule set for this!
+export AQ_DRM_DEVICES="/dev/dri/aq-gpu"

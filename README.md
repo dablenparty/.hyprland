@@ -4,6 +4,8 @@ My Hyprland dotfiles.
 
 ## Installation
 
+First, you need [boxunbox](https://github.com/dablenparty/boxunbox). This config depends on it.
+
 Hyprland has become stable enough that you can stick to tagged releases:
 
 ```bash
@@ -14,7 +16,7 @@ Or, you can continue with the custom PKGBUILD.
 
 ### Custom PKGBUILD
 
-Installation can be achieved with my custom [PKGBUILD](pkgbuild/PKGBUILD).
+Installation can be achieved with my custom [PKGBUILD](pkgbuild/Hyprland-git/PKGBUILD).
 
 You'll need `paru` so that the PKGBUILD can be updated with your system. Add the following to your `paru.conf` or use [the conf in this repo](paru/paru.conf):
 
@@ -28,8 +30,7 @@ GenerateSrcinfo
 
 Next time you run `paru`, it should download the [PKGBUILD](pkgbuild/PKGBUILD) and update it with the rest of the system.
 
-> [!NOTE]
-> After installation, `paru` might throw the following error: `error: git  reset --hard HEAD: No such file or directory (os error 2)`. It doesn't appear to affect the installation, so ignore it. It's tracked by this [GitHub issue](https://github.com/Morganamilo/paru/issues/1234).
+### Post-Installation
 
 You'll need to enable the experimental `bluez` features for Bluetooth battery access:
 
@@ -42,8 +43,6 @@ Experimental = true
 > [!IMPORTANT]
 > This doesn't appear to be necessary anymore, but I haven't been able to confirm that reliably. For now, enable them.
 
-### Post-Installation
-
 Once you've installed Hyprland, you'll need to enable a few `systemd` services:
 
 ```bash
@@ -54,3 +53,16 @@ systemctl enable --user mako.service
 systemctl enable --user speech-dispatcher.socket
 systemctl enable --user waybar.service
 ```
+
+Don't forget to activate your base and monitor configs by symlinking the proper configs into the [`hypr/monitors/active` directory](hypr/monitors)!
+
+#### GPU `udev` rule setup
+
+Since this config is used for both laptops and desktops, you have to tell `aquamarine` what GPU to use. You can generate the `udev` rule with [this script](udev/generate_rules.zsh), then reload the rules like so:
+
+```bash
+sudo udevadm control --reload
+sudo udevadm trigger
+```
+
+You may have to reload Hyprland afterward.
