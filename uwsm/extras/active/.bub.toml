@@ -1,0 +1,11 @@
+target = "~/.config/uwsm/extras/active"
+exclude = [
+    '^\.git.*$',
+    '\.unboxrc(\.ron)?$',
+    "^(README|LICEN[CS]E|COPYING).*$",
+    '\.unboxrc.*$',
+    '\.bub\.toml$',
+]
+include = []
+link_root = true
+link_type = "absolute"

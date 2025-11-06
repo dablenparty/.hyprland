@@ -7,11 +7,10 @@ export QT_AUTO_SCREEN_SCALE_FACTOR=1
 export QT_QPA_PLATFORM="wayland;xcb"
 export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
 
-# NVIDIA
-export GBM_BACKEND="nvidia-drm"
-export __GLX_VENDOR_LIBRARY_NAME="nvidia"
-export __GL_GSYNC_ALLOWED=1
-
 export ELECTRON_OZONE_PLATFORM_HINT="auto"
 
 export SDL_GAMECONTROLLERCONFIG="050057564c050000e60c000000006800,DualSense Wireless Controller Red,a:b0,b:b1,x:b2,y:b3,back:b4,guide:b11,start:b6,leftstick:b7,rightstick:b8,leftshoulder:b9,rightshoulder:b10,dpup:h0.1,dpdown:h0.4,dpleft:h0.8,dpright:h0.2,leftx:a0,lefty:a1,rightx:a2,righty:a3,lefttrigger:a4,righttrigger:a5,platform:Linux,crc:5657,"
+
+shopt -s nullglob
+[[ -d ~/.config/uwsm/extras/active ]] && source ~/.config/uwsm/extras/active/*
+shopt +s nullglob

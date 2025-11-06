@@ -1,0 +1,11 @@
+# run MESA_VK_DEVICE_SELECT=list vulkaninfo
+export DXVK_FILTER_DEVICE_NAME="AMD"
+export VKD3D_FILTER_DEVICE_NAME="AMD"
+export MESA_VK_DEVICE_SELECT="1002:1638"
+export __GLX_VENDOR_LIBRARY_NAME="mesa"
+export __EGL_VENDOR_LIBRARY_FILENAMES="/usr/share/glvnd/egl_vendor.d/50_mesa.json"
+export __NV_PRIME_RENDER_OFFLOAD=0
+export __VK_LAYER_NV_optimus="non_NVIDIA_only"
+export LIBVA_DRIVER_NAME="radeonsi"
+export VDPAU_DRIVER="radeonsi"
+export WLR_RENDER_DRM_DEVICE="/dev/dri/renderD129"
