@@ -1,7 +1,6 @@
-# Maintainer: Your Name <youremail@domain.com>
 _pkgname=Hyprland
 pkgname="${_pkgname}-git"
-pkgver=0.51.0.r49.g38c1e72
+pkgver=0.52.0.r5.g0b1d690
 pkgrel=1
 pkgdesc="Hyprland provides the latest Wayland features, dynamic tiling, all the eyecandy, powerful plugins and much more, while still being lightweight and responsive"
 arch=(x86_64)
@@ -10,19 +9,15 @@ license=('BSD-3')
 depends=(
   aquamarine-git
   cairo
-  cpio
   egl-wayland
-  git
   hyprcursor-git
   hyprgraphics-git
-  hyprland-protocols-git
-  hyprland-qtutils-git
+  hyprland-guiutils-git
   hyprlang-git
   hyprpolkitagent-git
   hyprutils-git
-  # Required for some hypr* packages
+  # Required for AQ & some hypr* packages
   hyprwayland-scanner-git
-  kitty
   libdisplay-info
   libheif
   libinput
@@ -34,7 +29,6 @@ depends=(
   libxfixes
   libxkbcommon
   libxrender
-  nwg-look
   pango
   pixman
   qt5-wayland
@@ -43,6 +37,7 @@ depends=(
   tomlplusplus
   ttf-font-awesome
   uwsm
+  wayland
   wayland-protocols
   wl-clipboard
   xcb-proto
@@ -53,16 +48,22 @@ depends=(
   xdg-desktop-portal-gtk-git
   xdg-desktop-portal-hyprland-git
   xorg-xwayland
-  # not required, but every WM needs a file manager imo
-  yazi
 )
 makedepends=(
   cmake
+  cpio
   gcc
   git
   glaze
+  hyprland-protocols-git
   meson
   ninja
+)
+optdepends=(
+  'kitty: default terminal emulator'
+  'hyprqt6engine: QT6 theme provider compatible with KDE/KColorScheme'
+  'nwg-look: GTK GUI for customizing GTK apps'
+  'yazi: terminal-based file manager'
 )
 provides=("$_pkgname=${pkgver/\.r*/}" "wayland-compositor")
 conflicts=(hyprland Hyprland hyprland-git)
@@ -102,4 +103,5 @@ build() {
 package() {
   cd "$srcdir/$_pkgname" || exit 1
   make DESTDIR="$pkgdir/" install
+  install -Dm0644 LICENSE -t "$pkgdir/usr/share/licenses/${pkgname}/"
 }
