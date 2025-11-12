@@ -3,7 +3,8 @@
 _mon() {
   _arguments -s -S -C : \
     '1:command:((enable\:"Enable a monitor"
-disable\:"Disable a monitor"))' \
+disable\:"Disable a monitor"
+primary\:"Set your primary monitor"))' \
     '2:conf file:_files -W "$HOME/.config/hypr/monitors" -g "*.conf"' &&
     ret=0
 }

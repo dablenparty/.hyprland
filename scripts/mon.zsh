@@ -22,8 +22,7 @@ fi
 
 declare -A all_monitors
 for conf in "$hyprconf_dir"/monitors/*.conf; do
-  conf_name="${conf##*/}"
-  conf_name="${conf_name%.*}"
+  conf_name="${${conf##*/}%.*}"
   all_monitors["$conf_name"]="$conf"
 done
 
@@ -50,6 +49,15 @@ disable)
   fi
   rm -v "$active_monitor_dir/$monitor.conf"
   hyprctl reload
+  ;;
+primary)
+  monitor_conf=${all_monitors["$monitor"]}
+  monitor_description="$(rg --color=never -IN '\s*output\s*=\s*desc:(.+)$' --replace '$1' "$monitor_conf")"
+  output="$(hyprctl monitors -j | jq -r ".[] | select(.description == \"$monitor_description\") | .name")"
+  printf 'setting primary to %s (%s)\n' "$monitor_description" "$output"
+  xrandr --output "$output" --primary
+  # no newline
+  printf '%s' "$output" > "$HOME/.primary_monitor"
   ;;
 show)
   # TODO: show [active]: shows all/active monitor confs
