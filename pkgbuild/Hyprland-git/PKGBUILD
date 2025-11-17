@@ -1,6 +1,6 @@
 _pkgname=Hyprland
 pkgname="${_pkgname}-git"
-pkgver=0.52.0.r15.g43527d3
+pkgver=0.52.0.r58.g37fe7b2
 pkgrel=1
 pkgdesc="Hyprland provides the latest Wayland features, dynamic tiling, all the eyecandy, powerful plugins and much more, while still being lightweight and responsive"
 arch=(x86_64)
@@ -10,31 +10,48 @@ depends=(
   aquamarine-git
   cairo
   egl-wayland
-  hyprcursor-git
+  glm
+  glslang
+  hyprcursor
   hyprgraphics-git
   hyprland-guiutils-git
-  hyprlang-git
+  hyprlang
   hyprpolkitagent-git
   hyprtoolkit-git
   hyprutils-git
   # Required for AQ & some hypr* packages
   hyprwayland-scanner-git
+  jq
   libdisplay-info
+  libdrm
+  libepoxy
+  libfontenc
+  libglvnd
   libheif
   libinput
+  libjxl
   libliftoff
+  librsvg
+  libspng
+  libwebp
   libx11
   libxcb
   libxcomposite
   libxcursor
+  libxcvt
   libxfixes
+  libxfont2
   libxkbcommon
+  libxkbfile
   libxrender
   pango
   pixman
+  pugixml
   qt5-wayland
   qt6-wayland
   re2
+  seatd
+  systemd
   tomlplusplus
   ttf-font-awesome
   uwsm
@@ -44,25 +61,45 @@ depends=(
   xcb-proto
   xcb-util
   xcb-util-errors
+  xcb-util-image
   xcb-util-keysyms
+  xcb-util-renderutil
   xcb-util-wm
   xdg-desktop-portal-gtk-git
   xdg-desktop-portal-hyprland-git
+  xorg-fonts-encodings
+  xorg-server-common
+  xorg-setxkbmap
+  xorg-xkbcomp
   xorg-xwayland
 )
 makedepends=(
+  base-devel
+  clang
   cmake
   cpio
   gcc
   git
   glaze
+  glm
+  glslang
+  go
   hyprland-protocols-git
+  libc++
+  lld
   meson
+  muparser
   ninja
+  pandoc
+  scdoc
 )
 optdepends=(
-  'kitty: default terminal emulator'
+  'cmake: to build and install plugins using hyprpm'
+  'cpio: to build and install plugins using hyprpm'
+  'glaze: to build and install plugins using hyprpm'
   'hyprqt6engine: QT6 theme provider compatible with KDE/KColorScheme'
+  'kitty: default terminal emulator'
+  'meson: to build and install plugins using hyprpm'
   'nwg-look: GTK GUI for customizing GTK apps'
   'yazi: terminal-based file manager'
 )
@@ -98,6 +135,8 @@ prepare() {
 
 build() {
   cd "$srcdir/$_pkgname" || exit 1
+
+  # NOTE: this does manpages too
   make all
 }
 

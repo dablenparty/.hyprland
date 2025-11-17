@@ -1,13 +1,13 @@
 _pkgname="hypridle"
 pkgname="$_pkgname-git"
-pkgver=0.1.6.r5.g4f1c165
+pkgver=0.1.7.r2.gf3d1f3b
 pkgrel=1
 pkgdesc="Hyprland utilities library used across the ecosystem"
 arch=('x86_64' 'aarch64')
 url="https://github.com/hyprwm/hypridle"
 license=('BSD-3-Clause')
 depends=(
-  'hyprlang-git>=0.4.0'
+  'hyprlang>=0.4.0'
   hyprutils-git
   'sdbus-cpp>=2.0.0'
   systemd
@@ -16,8 +16,8 @@ depends=(
 makedepends=(
   cmake
   git
-  hyprland-protocols-git
-  hyprwayland-scanner-git
+  hyprland-protocols
+  hyprwayland-scanner
   ninja
   wayland-protocols
 )

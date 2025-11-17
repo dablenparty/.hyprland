@@ -1,6 +1,6 @@
 _pkgname="hyprutils"
 pkgname="$_pkgname-git"
-pkgver=0.10.2.r0.g0a28f35
+pkgver=0.10.2.r3.g0c64118
 pkgrel=1
 pkgdesc="Hyprland utilities library used across the ecosystem"
 arch=('x86_64' 'aarch64')
@@ -10,9 +10,13 @@ depends=(
   pixman
 )
 makedepends=(
+  base-devel
+  clang
   cmake
+  gcc
   git
   gtest
+  libc++
   ninja
 )
 provides=("$_pkgname=${pkgver/\.r*/}" "lib$_pkgname.so")
@@ -29,13 +33,20 @@ pkgver() {
 prepare() {
   cd "$srcdir/$_pkgname" || exit 1
 
-  cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr -S . -B ./build
+  CC="/usr/bin/clang" CXX="/usr/bin/clang++" cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr -S . -B ./build
 }
 
 build() {
   cd "$srcdir/$_pkgname" || exit 1
 
-  cmake --build ./build --config Release --target all -j"${ nproc 2>/dev/null || getconf NPROCESSORS_CONF; }"
+  CC="/usr/bin/clang" CXX="/usr/bin/clang++" cmake --build ./build --config Release --target all -j"${ nproc 2>/dev/null || getconf NPROCESSORS_CONF; }"
+}
+
+check() {
+  cd "$srcdir/$_pkgname" || exit 1
+
+  cd ./build || exit 1
+  ctest --output-on-failure
 }
 
 package() {
