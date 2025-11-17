@@ -44,6 +44,7 @@ depends=(
   libxkbcommon
   libxkbfile
   libxrender
+  muparser
   pango
   pixman
   pugixml
@@ -88,7 +89,6 @@ makedepends=(
   libc++
   lld
   meson
-  muparser
   ninja
   pandoc
   scdoc
