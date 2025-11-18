@@ -1,0 +1,60 @@
+_pkgname=hyprls
+pkgname="${_pkgname}-git"
+pkgver=0.10.0.r6.gce5683c
+pkgrel=1
+pkgdesc="A LSP server for Hyprland config files"
+arch=(x86_64)
+url="https://github.com/hyprland-community/hyprls"
+license=('MIT')
+depends=(
+  go
+)
+makedepends=(
+  git
+  go
+  just
+)
+optdepends=()
+provides=("$_pkgname=${pkgver/\.r*/}")
+conflicts=(hyprls)
+source=(
+  "git+https://github.com/hyprland-community/$_pkgname.git"
+  "git+https://github.com/hyprwm/hyprland-wiki.git"
+)
+noextract=()
+sha256sums=('SKIP' 'SKIP')
+
+pkgver() {
+  cd "$srcdir/$_pkgname" || exit 1
+
+  # Git, tags available
+  printf "%s" "${ git describe --long --tags --abbrev=7 | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'; }"
+}
+
+prepare() {
+  cd "$srcdir/$_pkgname" || exit 1
+
+  git submodule init
+
+  git config submodule.hyprland-wiki.url "file://$srcdir/hyprland-wiki"
+
+  git -c protocol.file.allow=always submodule update
+}
+
+build() {
+  cd "$srcdir/$_pkgname" || exit 1
+
+  just build
+}
+
+check() {
+  cd "$srcdir/$_pkgname" || exit 1
+
+  go test
+}
+
+package() {
+  cd "$srcdir/$_pkgname" || exit 1
+  install -Dm755 "hyprls" "$pkgdir/usr/bin/hyprls"
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/${pkgname}/"
+}
