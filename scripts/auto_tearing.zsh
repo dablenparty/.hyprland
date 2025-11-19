@@ -31,7 +31,7 @@ handle() {
           monitor_verb="Found"
           tearing_verb="disabling"
         fi
-        notify-send --transient 'auto_tearing.zsh' "Detected monitor $mondesc, $tearing_verb tearing"
+        notify-send --transient 'auto_tearing.zsh' "$monitor_verb monitor $mondesc, $tearing_verb tearing"
         echo "detected bad monitor $mondesc@$monport"
         echo "setting tearing to $tearing_value"
         sed -Ei --follow-symlinks "s/(\\s*allow_tearing\\s*=\\s*)(true|false)/\\1$tearing_value/" "$hyprconf_path"
