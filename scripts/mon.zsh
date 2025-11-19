@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 set -e
-setopt pipefail
+setopt PIPE_FAIL
 
 hyprconf_dir="${XDG_CONFIG_HOME:-$HOME/.config}/hypr"
 active_monitor_dir="$hyprconf_dir/monitors/active"
@@ -52,8 +52,12 @@ disable)
   ;;
 primary)
   monitor_conf=${all_monitors["$monitor"]}
-  monitor_description="$(rg --color=never -IN '\s*output\s*=\s*desc:(.+)$' --replace '$1' "$monitor_conf")"
-  output="$(hyprctl monitors -j | jq -r ".[] | select(.description == \"$monitor_description\") | .name")"
+  monitor_description="$(rg --color=never -IN '\s*output\s*=\s*((desc:)?.+)$' --replace '$1' "$monitor_conf")"
+  if [[ $monitor_description =~ ^desc:(.+)$ ]]; then
+    output="$(hyprctl monitors -j | jq -r ".[] | select(.description == \"${match[1]}\") | .name")"
+  else
+    output="$monitor_description"
+  fi
   printf 'setting primary to %s (%s)\n' "$monitor_description" "$output"
   xrandr --output "$output" --primary
   # no newline
