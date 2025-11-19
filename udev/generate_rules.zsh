@@ -22,7 +22,7 @@ while read -r device; do
   fi
 done <<<"$(lspci -d ::03xx)"
 
-selected_gpu="$(printf '%s\n' ${(@k)devices} | fzf --prompt='Select a GPU >')"
+selected_gpu="$(printf '%s\n' ${(@k)devices} | fzf --prompt='Select a GPU to use for Hyprland>')"
 gpu_id=${devices[$selected_gpu]}
 symlink_name='aq-gpu'
 rule_path="$BASE_RULE_PATH/$symlink_name-dev-path.rules"
