@@ -4,7 +4,7 @@ set -e
 
 echo "Before continuing, please make sure your system is up-to-date and you've run the previous setup_on_arch.sh script."
 echo "    sudo pacman -Syu"
-read -rp "Continue? [Y\n]"$'\n' -n 1 key
+read -r -k 1 "Continue? [Y\n]"$'\n' key
 
 case $key in
 y | Y | "")
@@ -17,24 +17,6 @@ y | Y | "")
 esac
 
 echo "installing base dependencies"
-sudo pacman --overwrite "*" --needed --noconfirm -S \
-  base-devel \
-  cmake \
-  curl \
-  devtools \
-  fzf \
-  gcc \
-  git \
-  make \
-  man-db \
-  ntfs-3g \
-  openssh \
-  pacman-contrib \
-  ripgrep \
-  rust \
-  unzip \
-  yazi
-
 if ! command -v paru >/dev/null 2>&1; then
   echo "installing AUR helper: paru"
   if ! sudo pacman --noconfirm -S paru; then
@@ -48,16 +30,57 @@ if ! command -v paru >/dev/null 2>&1; then
     makepkg -si
     cd "$ORIG_DIR" || exit 1
   fi
-  paru --gendb
+  paru --gendb || exit 1
 fi
 
+echo "cloning dotfiles"
+paru --needed --noconfirm -S \
+  base-devel \
+  boxunbox \
+  cmake \
+  curl \
+  devtools \
+  fzf \
+  gcc \
+  git \
+  make \
+  pacman-contrib \
+  ripgrep \
+  rust \
+  unzip \
+  yazi
+dotfiles_path="$HOME/dotfiles"
+if ! [[ -d "$dotfiles_path" ]]; then
+  echo "$dotfiles_path is not a directory!"
+  exit 1
+fi
+# save the original dir for undoing cd commands
+ORIG_DIR="$PWD"
+cd "$dotfiles_path" || exit 1
+git submodule update --init --remote hyprland
+cd "$dotfiles_path/hyprland" || exit 1
+# checkout might fail, ignore that
+git checkout main || :
+"$dotfiles_path"/hyprland/udev/generate_rules.zsh
+setopt EXTENDEDGLOB
+root_required=(
+  keyd
+  scripts
+  udev
+)
+sudo unbox --if-exists move $(print "$dotfiles_path"/hyprland/${^root_required})
+# get the rest
+hypr_boxes=( *~${(j.~.)root_required}~pkgbuild(DNF) )
+unbox --if-exists overwrite $(print "$dotfiles_path"/hyprland/${^hypr_boxes})
+
+cd "$ORIG_DIR" || exit 1
+
 echo "installing Hyprland"
-paru --needed --rebuild=all --sudoloop --noconfirm -S \
+paru --needed --sudoloop --noconfirm -S \
   avahi \
   awww-git \
   bat \
   blueman \
-  blueman-applet \
   dot-hyprland/hypridle-git \
   dot-hyprland/hyprutils-git \
   dysk \
@@ -69,9 +92,7 @@ paru --needed --rebuild=all --sudoloop --noconfirm -S \
   foot \
   fuzzel \
   fzf \
-  hyprland \
   hyprlock-git \
-  hyprpolkitagent \
   hyprshot-git \
   jenv \
   jq \
@@ -81,7 +102,7 @@ paru --needed --rebuild=all --sudoloop --noconfirm -S \
   mpd-mpris \
   mpvpaper \
   neovim \
-  nm-applet \
+  network-manager-applet \
   nvidia-settings \
   nvidia-utils \
   nvtop \
@@ -103,44 +124,16 @@ paru --needed --rebuild=all --sudoloop --noconfirm -S \
   upscayl-ncnn \
   waybar-git \
   waypaper-git \
-  xdg-desktop-portal-gtk \
-  xdg-desktop-portal-hyprland \
   xdg-desktop-portal-kde \
   xdg-terminal-exec \
   xdg-user-dirs \
   zoxide
 
 # no chroot for this
-paru --needed --rebuild=all --sudoloop --nochroot --noconfirm -S dot-hyprland/glfw-wayland-minecraft-git
+paru --needed --sudoloop --nochroot --noconfirm --useask -S dot-hyprland/glfw-wayland-minecraft-git
 
+# must be separate because hyprutils insists on building AFTER Hyprland despite being a dependency of it
 paru --rebuild=all --sudoloop --noconfirm -S dot-hyprland/Hyprland-git
-
-echo "cloning dotfiles"
-dotfiles_path="$HOME/dotfiles"
-if ! [[ -d "$dotfiles_path" ]]; then
-  echo "$dotfiles_path is not a directory!"
-  exit 1
-fi
-# save the original dir for undoing cd commands
-ORIG_DIR="$PWD"
-cd "$dotfiles_path" || exit 1
-git submodule update --init --remote hyprland
-cd "$dotfiles_path/hyprland" || exit 1
-# checkout might fail
-git checkout main || :
-"$dotfiles_path"/hyprland/udev/generate_rules.zsh
-setopt EXTENDEDGLOB
-root_required=(
-  keyd
-  scripts
-  udev
-)
-sudo unbox --if-exists move "$(print "$dotfiles_path"/hyprland/${^root_required})"
-# get the rest
-hypr_boxes=( *~${(j.~.)root_required}~pkgbuild(DNF) )
-unbox --if-exists overwrite "$(print "$dotfiles_path"/hyprland/${^hypr_boxes})"
-
-cd "$ORIG_DIR" || exit 1
 
 echo 'enabling system services'
 sudo systemctl enable \
