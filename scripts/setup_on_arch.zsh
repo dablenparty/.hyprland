@@ -61,8 +61,10 @@ git submodule update --init --remote hyprland
 cd "$dotfiles_path/hyprland" || exit 1
 # checkout might fail, ignore that
 git checkout main || :
+# generate udev gpu rules (PWD is important hence cd)
+cd "$dotfiles_path"/hyprland/udev && ./generate_rules.zsh && cd .. || exit 1
 "$dotfiles_path"/hyprland/udev/generate_rules.zsh
-setopt EXTENDEDGLOB
+setopt EXTENDED_GLOB
 root_required=(
   keyd
   scripts
@@ -70,7 +72,7 @@ root_required=(
 )
 sudo unbox --if-exists move $(print "$dotfiles_path"/hyprland/${^root_required})
 # get the rest
-hypr_boxes=( *~${(j.~.)root_required}~pkgbuild(DNF) )
+hypr_boxes=( *~${~${(j.~.)root_required}}~pkgbuild(DNF) )
 unbox --if-exists overwrite $(print "$dotfiles_path"/hyprland/${^hypr_boxes})
 
 cd "$ORIG_DIR" || exit 1
@@ -134,6 +136,9 @@ paru --needed --sudoloop --nochroot --noconfirm --useask -S dot-hyprland/glfw-wa
 
 # must be separate because hyprutils insists on building AFTER Hyprland despite being a dependency of it
 paru --rebuild=all --sudoloop --noconfirm -S dot-hyprland/Hyprland-git
+
+# allow service startups to fail
+set +e
 
 echo 'enabling system services'
 sudo systemctl enable \
