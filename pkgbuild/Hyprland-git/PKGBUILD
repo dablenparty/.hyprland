@@ -1,6 +1,6 @@
 _pkgname=Hyprland
 pkgname="${_pkgname}-git"
-pkgver=0.52.0.r58.g37fe7b2
+pkgver=0.52.0.r84.g2b0fd41
 pkgrel=1
 pkgdesc="Hyprland provides the latest Wayland features, dynamic tiling, all the eyecandy, powerful plugins and much more, while still being lightweight and responsive"
 arch=(x86_64)
