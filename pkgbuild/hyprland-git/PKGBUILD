@@ -1,4 +1,4 @@
-_pkgname=Hyprland
+_pkgname=hyprland
 pkgname="${_pkgname}-git"
 pkgver=0.52.0.r84.g2b0fd41
 pkgrel=1
@@ -86,7 +86,6 @@ makedepends=(
   glslang
   go
   hyprland-protocols-git
-  hyprutils-git
   libc++
   lld
   meson
@@ -106,7 +105,7 @@ optdepends=(
   'yazi: terminal-based file manager'
 )
 provides=("$_pkgname=${pkgver/\.r*/}" "wayland-compositor")
-conflicts=(hyprland Hyprland hyprland-git)
+conflicts=(hyprland)
 source=(
   "git+https://github.com/hyprwm/$_pkgname.git"
   "git+https://github.com/hyprwm/hyprland-protocols"
