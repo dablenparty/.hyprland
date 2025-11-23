@@ -12,10 +12,10 @@ depends=(
   egl-wayland
   glm
   glslang
-  hyprcursor
+  hyprcursor-git
   hyprgraphics-git
   hyprland-guiutils-git
-  hyprlang
+  hyprlang-git
   hyprpolkitagent-git
   hyprtoolkit-git
   hyprutils-git
@@ -86,6 +86,7 @@ makedepends=(
   glslang
   go
   hyprland-protocols-git
+  hyprutils-git
   libc++
   lld
   meson
@@ -97,6 +98,7 @@ optdepends=(
   'cmake: to build and install plugins using hyprpm'
   'cpio: to build and install plugins using hyprpm'
   'glaze: to build and install plugins using hyprpm'
+  'hyprland-qt-support: QML style for QT6 hypr* apps'
   'hyprqt6engine: QT6 theme provider compatible with KDE/KColorScheme'
   'kitty: default terminal emulator'
   'meson: to build and install plugins using hyprpm'
