@@ -7,19 +7,19 @@ arch=('x86_64' 'aarch64')
 url="https://github.com/hyprwm/hypridle"
 license=('BSD-3-Clause')
 depends=(
-  'hyprlang>=0.4.0'
-  hyprutils-git
-  'sdbus-cpp>=2.0.0'
-  systemd
-  wayland
+  gcc-libs
+  glibc
+  hyprlang-git libhyprlang.so
+  hyprutils-git libhyprutils.so
+  hyprwayland-scanner-git
+  'sdbus-cpp>=2.0.0' libsdbus-c++.so
+  wayland libwayland-client.so
+  wayland-protocols
 )
 makedepends=(
   cmake
   git
-  hyprland-protocols
-  hyprwayland-scanner
-  ninja
-  wayland-protocols
+  hyprland-protocols-git
 )
 provides=("$_pkgname=${pkgver/\.r*/}")
 conflicts=("$_pkgname")
@@ -35,13 +35,13 @@ pkgver() {
 prepare() {
   cd "$srcdir/$_pkgname" || exit 1
 
-  cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr -S . -B ./build
+  cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=/usr -S . -B ./build
 }
 
 build() {
   cd "$srcdir/$_pkgname" || exit 1
 
-  cmake --build ./build --config Release --target all -j"${ nproc 2>/dev/null || getconf NPROCESSORS_CONF; }"
+  cmake --build ./build
 }
 
 package() {

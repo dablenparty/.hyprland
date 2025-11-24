@@ -7,56 +7,46 @@ arch=(x86_64)
 url="https://hyprland.org/"
 license=('BSD-3')
 depends=(
-  aquamarine-git
+  aquamarine-git libaquamarine.so
   cairo
   egl-wayland
-  glm
+  gcc-libs
+  glib2 libgio-2.0.so libgobject-2.0.so
   glslang
-  hyprcursor-git
-  hyprgraphics-git
+  hyprcursor-git libhyprcursor.so
+  hyprgraphics-git libhyprgraphics.so
   hyprland-guiutils-git
-  hyprlang-git
+  hyprlang-git libhyprlang.so
   hyprpolkitagent-git
-  hyprtoolkit-git
-  hyprutils-git
+  hyprutils-git libhyprutils.so
   # Required for AQ & some hypr* packages
   hyprwayland-scanner-git
-  jq
-  libdisplay-info
+  libdisplay-info libdisplay-info.so
   libdrm
-  libepoxy
-  libfontenc
-  libglvnd
-  libheif
+  libglvnd libEGL.so libGLESv2.so libOpenGL.so
   libinput
-  libjxl
-  libliftoff
-  librsvg
-  libspng
-  libwebp
+  libliftoff libliftoff.so
   libx11
   libxcb
   libxcomposite
   libxcursor
-  libxcvt
   libxfixes
-  libxfont2
-  libxkbcommon
-  libxkbfile
+  libxkbcommon libxkbcommon.so
   libxrender
+  mesa
   muparser
-  pango
-  pixman
-  pugixml
+  opengl-driver
+  pango libpango-1.0.so libpangocairo-1.0.so
+  pixman libpixman-1.so
   qt5-wayland
   qt6-wayland
-  re2
-  seatd
-  systemd
-  tomlplusplus
-  ttf-font-awesome
+  re2 libre2.so
+  seatd libseat.so
+  systemd-libs libsystemd.so
+  tomlplusplus libtomlplusplus.so libudev.so
+  util-linux-libs libuuid.so
   uwsm
-  wayland
+  wayland libwayland-client.so libwayland-server.so
   wayland-protocols
   wl-clipboard
   xcb-proto
@@ -68,30 +58,16 @@ depends=(
   xcb-util-wm
   xdg-desktop-portal-gtk-git
   xdg-desktop-portal-hyprland-git
-  xorg-fonts-encodings
-  xorg-server-common
-  xorg-setxkbmap
-  xorg-xkbcomp
   xorg-xwayland
 )
 makedepends=(
-  base-devel
-  clang
   cmake
-  cpio
-  gcc
   git
   glaze
-  glm
-  glslang
-  go
   hyprland-protocols-git
-  libc++
-  lld
   meson
   ninja
-  pandoc
-  scdoc
+  xorgproto
 )
 optdepends=(
   'cmake: to build and install plugins using hyprpm'
@@ -116,14 +92,14 @@ noextract=()
 sha256sums=('SKIP' 'SKIP' 'SKIP' 'SKIP')
 
 pkgver() {
-  cd "$srcdir/$_pkgname" || exit 1
+  cd "$srcdir/$_pkgname" || exit
 
   # Git, tags available
   printf "%s" "${ git describe --long --tags --abbrev=7 | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'; }"
 }
 
 prepare() {
-  cd "$srcdir/$_pkgname" || exit 1
+  cd "$srcdir/$_pkgname" || exit
 
   git submodule init
 
@@ -135,14 +111,14 @@ prepare() {
 }
 
 build() {
-  cd "$srcdir/$_pkgname" || exit 1
+  cd "$srcdir/$_pkgname" || exit
 
   # NOTE: this does manpages too
-  make all
+  make all PREFIX=/usr
 }
 
 package() {
-  cd "$srcdir/$_pkgname" || exit 1
-  make DESTDIR="$pkgdir/" install
+  cd "$srcdir/$_pkgname" || exit
+  make DESTDIR="$pkgdir" install
   install -Dm0644 LICENSE -t "$pkgdir/usr/share/licenses/${pkgname}/"
 }

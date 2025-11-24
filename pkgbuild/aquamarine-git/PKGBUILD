@@ -1,0 +1,62 @@
+_pkgname="aquamarine"
+pkgname="$_pkgname-git"
+pkgver=0.10.0.r0.ga20a0e6
+pkgrel=1
+pkgdesc="Aquamarine is a very light linux rendering backend library"
+arch=('x86_64' 'aarch64')
+url="https://github.com/hyprwm/$_pkgname"
+license=('BSD-3-Clause')
+depends=(
+  gcc-libs
+  glibc
+  hyprutils-git libhyprutils.so
+  hyprwayland-scanner-git
+  libdisplay-info libdisplay-info.so
+  libdrm
+  libglvnd libEGL.so libGLESv2.so
+  'libinput>=1.26.0'
+  mesa
+  opengl-driver
+  pixman
+  pugixml
+  seatd libseat.so
+  systemd-libs libudev.so
+  wayland libwayland-client.so
+  wayland-protocols
+)
+makedepends=(
+  cmake
+  git
+)
+checkdepends=(
+  gtest
+)
+
+provides=("$_pkgname=${pkgver%%.r*}" "lib$_pkgname.so")
+conflicts=("$_pkgname")
+
+source=("git+$url.git")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_pkgname" || exit
+  git describe --long --tags --abbrev=7 | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+prepare() {
+  cd "$srcdir/$_pkgname" || exit
+  cmake -B build -S . \
+    -D CMAKE_INSTALL_PREFIX=/usr \
+    -D CMAKE_BUILD_TYPE=Release
+}
+
+build() {
+  cd "$srcdir/$_pkgname" || exit
+  cmake --build build
+}
+
+package() {
+  cd "$srcdir/$_pkgname" || exit
+  DESTDIR="$pkgdir" cmake --install build
+  install -Dm644 "LICENSE" -t "$pkgdir/usr/share/licenses/$pkgname/"
+}

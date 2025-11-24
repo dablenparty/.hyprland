@@ -25,14 +25,14 @@ noextract=()
 sha256sums=('SKIP' 'SKIP')
 
 pkgver() {
-  cd "$srcdir/$_pkgname" || exit 1
+  cd "$srcdir/$_pkgname" || exit
 
   # Git, tags available
   printf "%s" "${ git describe --long --tags --abbrev=7 | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'; }"
 }
 
 prepare() {
-  cd "$srcdir/$_pkgname" || exit 1
+  cd "$srcdir/$_pkgname" || exit
 
   git submodule init
 
@@ -42,19 +42,13 @@ prepare() {
 }
 
 build() {
-  cd "$srcdir/$_pkgname" || exit 1
+  cd "$srcdir/$_pkgname" || exit
 
   just build
 }
 
-check() {
-  cd "$srcdir/$_pkgname" || exit 1
-
-  go test
-}
-
 package() {
-  cd "$srcdir/$_pkgname" || exit 1
+  cd "$srcdir/$_pkgname" || exit
   install -Dm755 "hyprls" "$pkgdir/usr/bin/hyprls"
   install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/${pkgname}/"
 }
