@@ -74,8 +74,10 @@ sudo unbox --if-exists move $(print "$dotfiles_path"/hyprland/${^root_required})
 # get the rest
 hypr_boxes=( *~${~${(j.~.)root_required}}~pkgbuild(DNF) )
 unbox --if-exists overwrite $(print "$dotfiles_path"/hyprland/${^hypr_boxes})
-
 cd "$ORIG_DIR" || exit 1
+# new paru conf; refresh
+paru -Syy
+paru -Ly
 
 echo "installing Hyprland"
 paru --needed --sudoloop --noconfirm -S \
@@ -83,10 +85,12 @@ paru --needed --sudoloop --noconfirm -S \
   awww-git \
   bat \
   blueman \
+  btop \
   dot-hyprland/hypridle-git \
+  dot-hyprland/hyprland-git \
   dot-hyprland/hyprutils-git \
-  dysk \
   dust \
+  dysk \
   eza \
   fd \
   firefox \
@@ -95,10 +99,16 @@ paru --needed --sudoloop --noconfirm -S \
   fuzzel \
   fzf \
   hyprlock-git \
+  hyprpicker-git \
+  hyprpolkit-agent-git \
   hyprshot-git \
   jenv \
   jq \
   lib32-nvidia-utils \
+  libheif \
+  librsvg \
+  libspng \
+  libwebp \
   mako \
   mpd \
   mpd-mpris \
@@ -118,6 +128,7 @@ paru --needed --sudoloop --noconfirm -S \
   seatd \
   socat \
   speech-dispatcher \
+  systemd \
   tesseract \
   tesseract-data-eng \
   ttf-jetbrains-mono-nerd \
@@ -133,9 +144,6 @@ paru --needed --sudoloop --noconfirm -S \
 
 # no chroot for this
 paru --needed --sudoloop --nochroot --noconfirm --useask -S dot-hyprland/glfw-wayland-minecraft-git
-
-# must be separate because hyprutils insists on building AFTER Hyprland despite being a dependency of it
-paru --rebuild=all --sudoloop --noconfirm -S dot-hyprland/Hyprland-git
 
 # allow service startups to fail
 set +e
