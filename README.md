@@ -6,17 +6,7 @@ My Hyprland dotfiles.
 
 First, you need [boxunbox](https://github.com/dablenparty/boxunbox). This config depends on it.
 
-Hyprland has become stable enough that you can stick to tagged releases:
-
-```bash
-sudo pacman -S hyprland
-```
-
-Or, you can continue with the custom PKGBUILD.
-
-### Custom PKGBUILD
-
-Installation can be achieved with my custom [PKGBUILD](pkgbuild/Hyprland-git/PKGBUILD).
+Installation can be achieved with my custom [PKGBUILD](pkgbuild/hyprland-git/PKGBUILD). **I highly recommend the [setup script](scripts/setup_on_arch.zsh)**.
 
 You'll need `paru` so that the PKGBUILD can be updated with your system. Add the following to your `paru.conf` or use [the conf in this repo](paru/paru.conf):
 
@@ -28,7 +18,7 @@ SkipReview
 GenerateSrcinfo
 ```
 
-Next time you run `paru`, it should download the [PKGBUILD](pkgbuild/PKGBUILD) and update it with the rest of the system.
+Next time you run `paru -Sy`, it should download the [PKGBUILD](pkgbuild/PKGBUILD) so that it can be updated with the rest of the system.
 
 ### Post-Installation
 
