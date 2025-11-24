@@ -135,6 +135,7 @@ paru --needed --sudoloop --noconfirm -S \
   udiskie \
   unzip \
   upscayl-ncnn \
+  vk-hdr-layer-kwin6-git \
   waybar-git \
   waypaper-git \
   xdg-desktop-portal-kde \
