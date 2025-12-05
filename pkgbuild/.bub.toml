@@ -1,0 +1,10 @@
+target = "/var/lib/repo/dot-hyprland"
+exclude = [
+    '\.unboxrc.*$',
+    '\.bub\.toml$',
+    '^\.git.*$',
+    "^(README|LICEN[CS]E|COPYING).*$",
+]
+include = ['PKGBUILD']
+link_root = true
+link_type = "absolute"

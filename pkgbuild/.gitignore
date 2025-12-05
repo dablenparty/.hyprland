@@ -1,2 +1,4 @@
-*
+# ignore all FILES; see man gitignore for why
+*/**
 !**/PKGBUILD
+!.bub.toml
