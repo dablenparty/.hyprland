@@ -1,28 +1,18 @@
-_pkgname="aquamarine"
+_pkgname="hyprwire"
 pkgname="$_pkgname-git"
-pkgver=0.10.0.r2.ga43bedc
+pkgver=0.2.1.r0.g7997451
 pkgrel=1
-pkgdesc="Aquamarine is a very light linux rendering backend library"
+pkgdesc="A fast and consistent wire protocol for IPC"
 arch=('x86_64' 'aarch64')
-url="https://github.com/hyprwm/$_pkgname"
+url="https://github.com/hyprwm/hyprwire"
 license=('BSD-3-Clause')
+
 depends=(
   gcc-libs
   glibc
   hyprutils-git libhyprutils.so
-  hyprwayland-scanner-git
-  libdisplay-info libdisplay-info.so
-  libdrm
-  libglvnd libEGL.so libGLESv2.so
-  'libinput>=1.26.0'
-  mesa
-  opengl-driver
-  pixman
+  libffi libffi.so
   pugixml
-  seatd libseat.so
-  systemd-libs libudev.so
-  wayland libwayland-client.so
-  wayland-protocols
 )
 makedepends=(
   cmake
@@ -32,7 +22,8 @@ makedepends=(
 provides=("lib$_pkgname.so")
 conflicts=("$_pkgname")
 
-source=("git+$url.git")
+_pkgsrc=$_pkgname
+source=("$_pkgsrc::git+$url.git")
 sha256sums=('SKIP')
 
 pkgver() {
@@ -42,18 +33,26 @@ pkgver() {
 
 prepare() {
   cd "$srcdir/$_pkgname" || exit
-  cmake -B build -S . \
-    -D CMAKE_INSTALL_PREFIX=/usr \
-    -D CMAKE_BUILD_TYPE=Release
+
+  local cmake_options=(
+    -B build
+    -S .
+    -W no-dev
+    -D CMAKE_BUILD_TYPE=None
+    -D CMAKE_INSTALL_PREFIX=/usr
+  )
+  cmake "${cmake_options[@]}"
 }
 
 build() {
   cd "$srcdir/$_pkgname" || exit
+
   cmake --build build
 }
 
 package() {
   cd "$srcdir/$_pkgname" || exit
+
   DESTDIR="$pkgdir" cmake --install build
   install -Dm644 "LICENSE" -t "$pkgdir/usr/share/licenses/$pkgname/"
 }

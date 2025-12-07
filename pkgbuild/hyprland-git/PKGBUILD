@@ -1,6 +1,6 @@
 _pkgname=hyprland
 pkgname="${_pkgname}-git"
-pkgver=0.52.0.r84.g2b0fd41
+pkgver=0.52.0.r138.ga5b7c91
 pkgrel=1
 pkgdesc="Hyprland provides the latest Wayland features, dynamic tiling, all the eyecandy, powerful plugins and much more, while still being lightweight and responsive"
 arch=(x86_64)
@@ -21,6 +21,7 @@ depends=(
   hyprutils-git libhyprutils.so
   # Required for AQ & some hypr* packages
   hyprwayland-scanner-git
+  hyprwire-git libhyprwire.so
   libdisplay-info libdisplay-info.so
   libdrm
   libglvnd libEGL.so libGLESv2.so libOpenGL.so
@@ -90,6 +91,11 @@ source=(
 )
 noextract=()
 sha256sums=('SKIP' 'SKIP' 'SKIP' 'SKIP')
+backup=(
+  usr/share/xdg-desktop-portal/hyprland-portals.conf
+  usr/share/wayland-sessions/hyprland.desktop
+  usr/share/wayland-sessions/hyprland-uwsm.desktop
+  )
 
 pkgver() {
   cd "$srcdir/$_pkgname" || exit
@@ -113,7 +119,7 @@ prepare() {
 build() {
   cd "$srcdir/$_pkgname" || exit
 
-  # NOTE: this does manpages too
+  # NOTE: make all = 'make clean && make release'
   make all PREFIX=/usr
 }
 

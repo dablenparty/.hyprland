@@ -1,6 +1,6 @@
 _pkgname="hyprutils"
 pkgname="$_pkgname-git"
-pkgver=0.10.3.r1.g96df6f6
+pkgver=0.11.0.r0.gfe68648
 pkgrel=1
 pkgdesc="Hyprland utilities library used across the ecosystem"
 arch=('x86_64' 'aarch64')
@@ -13,7 +13,7 @@ makedepends=(
   cmake
   git
 )
-provides=("$_pkgname=${pkgver/\.r*/}" "lib$_pkgname.so")
+provides=("lib$_pkgname.so")
 conflicts=("$_pkgname")
 source=("git+$url.git")
 sha256sums=('SKIP')
@@ -27,7 +27,7 @@ pkgver() {
 prepare() {
   cd "$srcdir/$_pkgname" || exit 1
 
-  cmake -W no-dev -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=/usr -S . -B ./build
+  cmake -W no-dev -D BUILD_TESTING=False -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=/usr -S . -B ./build
 }
 
 build() {
