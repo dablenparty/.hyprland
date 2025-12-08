@@ -63,6 +63,20 @@ primary)
   # no newline
   printf '%s' "$output" > "$HOME/.primary_monitor"
   ;;
+rotate)
+  monitor_conf=${all_monitors["$monitor"]}
+  transform_value=$3
+  # checks for uncommented line
+  if rg -q '^\s*transform' "$monitor_conf"; then
+    # already has transform line; modify it
+    sed_cmd="s/(\s*transform\s*=\s*)[0-9]/\1$transform_value/"
+  else
+    # doesn't have transform line; add it at the bottom
+    sed_cmd="/}/i \\    transform = $transform_value"
+  fi
+  sed -Ei --follow-symlinks "$sed_cmd" "$monitor_conf"
+  hyprctl reload
+  ;;
 show)
   # TODO: show [active]: shows all/active monitor confs
   echo "error: not yet implemented"
