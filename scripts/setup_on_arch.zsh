@@ -85,6 +85,7 @@ paru --needed --sudoloop --noconfirm -S \
   awww-git \
   bat \
   blueman \
+  brightnessctl \
   btop \
   dot-hyprland/hypridle-git \
   dot-hyprland/hyprland-git \
