@@ -14,7 +14,7 @@ mkdir -v "$BASE_RULE_PATH"
 
 declare -A devices
 while read -r device; do
-  if [[ "$device" =~ "^(\d+:\d+\.\d).+?: (.+?) \(rev \w\d\)$" ]]; then
+  if [[ "$device" =~ "^([\d\w]+:\d+\.\d).+?: (.+?) \(rev \w\d\)$" ]]; then
     echo "id=${match[1]}"
     echo "name=${match[2]}"
     # devices[name]=id
