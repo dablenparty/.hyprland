@@ -62,8 +62,7 @@ cd "$dotfiles_path/hyprland" || exit 1
 # checkout might fail, ignore that
 git checkout main || :
 # generate udev gpu rules (PWD is important hence cd)
-cd "$dotfiles_path"/hyprland/udev && ./generate_rules.zsh && cd .. || exit 1
-"$dotfiles_path"/hyprland/udev/generate_rules.zsh
+cd "$dotfiles_path"/hyprland/udev && ./generate_rules.zsh && cd .. || exit
 setopt EXTENDED_GLOB
 root_required=(
   keyd
