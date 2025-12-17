@@ -71,8 +71,8 @@ root_required=(
   udev
 )
 sudo unbox --if-exists move $(print "$dotfiles_path"/hyprland/${^root_required})
-# get the rest
-hypr_boxes=( *~${~${(j.~.)root_required}}~pkgbuild(DNF) )
+# get the rest (now includes PKGBUILDs)
+hypr_boxes=( *~${~${(j.~.)root_required}}(DNF) )
 unbox --if-exists overwrite $(print "$dotfiles_path"/hyprland/${^hypr_boxes})
 cd "$ORIG_DIR" || exit 1
 # new paru conf; refresh
