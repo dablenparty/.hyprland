@@ -124,7 +124,6 @@ paru --needed --sudoloop --noconfirm -S \
   playerctl \
   python-pywal16 \
   ripgrep \
-  sddm \
   seatd \
   socat \
   speech-dispatcher \
@@ -150,9 +149,7 @@ paru --needed --sudoloop --nochroot --noconfirm --useask -S dot-hyprland/glfw-wa
 set +e
 
 echo 'enabling system services'
-sudo systemctl enable \
-  avahi.service \
-  sddm.service
+sudo systemctl enable avahi-daemon.service
 
 echo 'enabling user services'
 systemctl enable --user \
