@@ -7,7 +7,7 @@ hyprconf_dir="${XDG_CONFIG_HOME:-$HOME/.config}/hypr"
 active_monitor_dir="$hyprconf_dir/monitors/active"
 
 print_help() {
-  print 'usage: mon <enable|disable|show> [monitor-slug]'
+  print 'usage: mon <enable|disable|primary|rotate> [monitor-conf]'
 }
 
 check_enabled() {
@@ -51,6 +51,17 @@ disable)
   hyprctl reload
   ;;
 primary)
+  if [[ -z "$monitor" ]]; then
+    # rg exits 1 if it fails to match
+    set +e
+    xrandr_monitor="${$(xrandr --listactivemonitors | rg --color=never -IN ' \d: \+\*([\w\d-]+).*' --replace '$1'):-none set}"
+    if [[ -r "$HOME/.primary_monitor" ]]; then
+      my_monitor="${$(<"$HOME/.primary_monitor"):-none set}"
+    fi
+    printf '  your primary monitor: %s\nxrandr primary monitor: %s\n' $my_monitor $xrandr_monitor
+    exit 0
+  fi
+
   monitor_conf=${all_monitors["$monitor"]}
   monitor_description="$(rg --color=never -IN '\s*output\s*=\s*((desc:)?.+)$' --replace '$1' "$monitor_conf")"
   if [[ $monitor_description =~ ^desc:(.+)$ ]]; then
