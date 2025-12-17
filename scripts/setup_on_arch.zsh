@@ -4,6 +4,7 @@ set -e
 
 echo "Before continuing, please make sure your system is up-to-date and you've run the previous setup_on_arch.sh script."
 echo "    sudo pacman -Syu"
+echo "I also highly recommend running this script with an inhibitor, i.e. 'systemd-inhibit $0'"
 read -r -k 1 "Continue? [Y\n]"$'\n' key
 
 case $key in
@@ -24,13 +25,13 @@ if ! command -v paru >/dev/null 2>&1; then
     paru_path="$HOME/aur/paru"
     mkdir -vp "$paru_path"
     git clone https://aur.archlinux.org/paru.git "$paru_path"
-    cd "$paru_path" || exit 1
+    cd "$paru_path" || exit
     # paru is a Rust project and I don't use any crazy custom RUSTFLAGS,
     # so it's OK to do this before unboxing the makepkg config in my dotfiles.
     makepkg -si
-    cd "$ORIG_DIR" || exit 1
+    cd "$ORIG_DIR" || exit
   fi
-  paru --gendb || exit 1
+  paru --gendb || exit
 fi
 
 echo "cloning dotfiles"
@@ -56,9 +57,9 @@ if ! [[ -d "$dotfiles_path" ]]; then
 fi
 # save the original dir for undoing cd commands
 ORIG_DIR="$PWD"
-cd "$dotfiles_path" || exit 1
+cd "$dotfiles_path" || exit
 git submodule update --init --remote hyprland
-cd "$dotfiles_path/hyprland" || exit 1
+cd "$dotfiles_path/hyprland" || exit
 # checkout might fail, ignore that
 git checkout main || :
 # generate udev gpu rules (PWD is important hence cd)
@@ -73,7 +74,7 @@ sudo unbox --if-exists move $(print "$dotfiles_path"/hyprland/${^root_required})
 # get the rest (now includes PKGBUILDs)
 hypr_boxes=( *~${~${(j.~.)root_required}}(DNF) )
 unbox --if-exists overwrite $(print "$dotfiles_path"/hyprland/${^hypr_boxes})
-cd "$ORIG_DIR" || exit 1
+cd "$ORIG_DIR" || exit
 # new paru conf; refresh
 paru -Syy
 paru -Ly
