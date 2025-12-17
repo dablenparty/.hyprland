@@ -100,7 +100,7 @@ paru --needed --sudoloop --noconfirm -S \
   fzf \
   hyprlock-git \
   hyprpicker-git \
-  hyprpolkit-agent-git \
+  hyprpolkitagent-git \
   hyprshot-git \
   jenv \
   jq \
