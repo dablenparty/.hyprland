@@ -28,6 +28,7 @@ _mon() {
     "enable:Enable a monitor"
     "disable:Disable a monitor"
     "primary:Set your primary monitor"
+    "reload:Disable and re-enable a monitor"
     "rotate:Rotate a monitor"
   )
   _arguments -C : \
@@ -41,7 +42,7 @@ _mon() {
   args)
     local cmd=$line[1]
     case $cmd in
-    enable | disable | primary)
+    enable | disable | primary | reload)
       _mon_bare_cmd && ret=0
       ;;
     rotate)

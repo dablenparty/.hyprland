@@ -74,6 +74,10 @@ primary)
   # no newline
   printf '%s' "$output" > "$HOME/.primary_monitor"
   ;;
+reload)
+  mon.zsh disable "$monitor" && mon.zsh enable "$monitor"
+  printf 'reloaded monitor %s!\n' $monitor
+  ;;
 rotate)
   monitor_conf=${all_monitors["$monitor"]}
   transform_value=$3
