@@ -90,7 +90,6 @@ paru --needed --sudoloop --noconfirm -S \
   btop \
   dot-hyprland/hypridle-git \
   dot-hyprland/hyprland-git \
-  dot-hyprland/hyprutils-git \
   dust \
   dysk \
   eza \
@@ -100,23 +99,34 @@ paru --needed --sudoloop --noconfirm -S \
   foot \
   fuzzel \
   fzf \
+  gst-plugin-pipewire \
   hyprlock-git \
   hyprpicker-git \
   hyprpolkitagent-git \
   hyprshot-git \
   jenv \
   jq \
+  lib32-libcanberra \
+  lib32-libpipewire \
+  lib32-libpulse \
   lib32-nvidia-utils \
+  lib32-pipewire \
+  libcanberra \
+  libcec \
   libheif \
+  libpipewire \
+  libpulse \
   librsvg \
   libspng \
   libwebp \
+  libwireplumber \
   mako \
   mpd \
   mpd-mpris \
   mpvpaper \
   neovim \
   network-manager-applet \
+  nvidia-prime \
   nvidia-settings \
   nvidia-utils \
   nvtop \
@@ -124,7 +134,15 @@ paru --needed --sudoloop --noconfirm -S \
   obsidian \
   oh-my-posh-bin \
   perl-image-exiftool \
+  pipewire \
+  pipewire-alsa \
+  pipewire-audio \
+  pipewire-jack \
+  pipewire-pulse \
+  pipewire-zeroconf \
   playerctl \
+  pulseaudio-qt \
+  pwvucontrol \
   python-pywal16 \
   ripgrep \
   seatd \
@@ -137,16 +155,50 @@ paru --needed --sudoloop --noconfirm -S \
   udiskie \
   unzip \
   upscayl-ncnn \
-  vk-hdr-layer-kwin6-git \
   waybar-git \
+  wayland-pipewire-idle-inhibit \
   waypaper-git \
+  wireplumber \
   xdg-desktop-portal-kde \
   xdg-terminal-exec \
   xdg-user-dirs \
   zoxide
 
-# no chroot for this
+echo "installing gaming dependencies"
+# no chroot for this, overwrite what's there
 paru --needed --sudoloop --nochroot --noconfirm --useask -S dot-hyprland/glfw-wayland-minecraft-git
+# don't install Proton GE from AUR; the maintainers don't update it quick enough for me and it
+# has issues sometimes
+gaming_packages=(
+  gamescope
+  lib32-mangohud
+  lib32-sdl2
+  lib32-vkd3d
+  lutris
+  mangohud
+  protonup-qt
+  vk-hdr-layer-kwin6-git
+  vkd3d
+  wine
+  wine-gecko
+  wine-mono
+  wireplumber
+  xdg-desktop-portal-kde
+)
+# set -e shouldn't affect if statements, but it does if a pipe is involved
+set +e
+if command -v pacman-conf >/dev/null && (pacman-conf --repo-list | rg -q 'cachyos$'); then
+  # has cachy repo, install meta
+  # there might be dupes but that's what --needed is for
+  gaming_packages+=(cachyos-gaming-meta)
+else
+  # don't use this on cachy
+  gaming_packages+=(gamemode-git)
+fi
+set -e
+paru --noconfirm --needed -S "${gaming_packages[@]}"
+# steam must be installed after all the Wine stuff or it might not detect some of the optional deps
+paru --noconfirm --rebuild=all -S steam
 
 # allow service startups to fail
 set +e
@@ -161,7 +213,8 @@ systemctl enable --user \
   mako.service \
   mpd-mpris.service \
   playerctld.service \
-  waybar.service
+  waybar.service \
+  wayland-pipewire-idle-inhibit.service
 set -e
 
 echo 'beginning post-install setup'
