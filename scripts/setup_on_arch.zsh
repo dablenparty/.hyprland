@@ -81,88 +81,91 @@ paru -Syy
 paru -Ly
 
 echo "installing Hyprland"
-paru --needed --sudoloop --noconfirm -S \
-  avahi \
-  awww-git \
-  bat \
-  blueman \
-  brightnessctl \
-  btop \
-  dot-hyprland/hypridle-git \
-  dot-hyprland/hyprland-git \
-  dust \
-  dysk \
-  eza \
-  fd \
-  firefox \
-  fnm \
-  foot \
-  fuzzel \
-  fzf \
-  gst-plugin-pipewire \
-  hyprlock-git \
-  hyprpicker-git \
-  hyprpolkitagent-git \
-  hyprshot-git \
-  jenv \
-  jq \
-  lib32-libcanberra \
-  lib32-libpipewire \
-  lib32-libpulse \
-  lib32-nvidia-utils \
-  lib32-pipewire \
-  libcanberra \
-  libcec \
-  libheif \
-  libpipewire \
-  libpulse \
-  librsvg \
-  libspng \
-  libwebp \
-  libwireplumber \
-  mako \
-  mpd \
-  mpd-mpris \
-  mpvpaper \
-  neovim \
-  network-manager-applet \
-  nvidia-prime \
-  nvidia-settings \
-  nvidia-utils \
-  nvtop \
-  nwg-look \
-  obsidian \
-  oh-my-posh-bin \
-  perl-image-exiftool \
-  pipewire \
-  pipewire-alsa \
-  pipewire-audio \
-  pipewire-jack \
-  pipewire-pulse \
-  pipewire-zeroconf \
-  playerctl \
-  pulseaudio-qt \
-  pwvucontrol \
-  python-pywal16 \
-  ripgrep \
-  seatd \
-  socat \
-  speech-dispatcher \
-  systemd \
-  tesseract \
-  tesseract-data-eng \
-  ttf-jetbrains-mono-nerd \
-  udiskie \
-  unzip \
-  upscayl-ncnn \
-  waybar-git \
-  wayland-pipewire-idle-inhibit \
-  waypaper-git \
-  wireplumber \
-  xdg-desktop-portal-kde \
-  xdg-terminal-exec \
-  xdg-user-dirs \
+hyprland_pkgs=(
+  avahi
+  awww-git
+  bat
+  blueman
+  brightnessctl
+  btop
+  dot-hyprland/hypridle-git
+  dot-hyprland/hyprland-git
+  dust
+  dysk
+  eza
+  fd
+  firefox
+  fnm
+  foot
+  fuzzel
+  fzf
+  gst-plugin-pipewire
+  hyprlock-git
+  hyprpicker-git
+  hyprpolkitagent-git
+  hyprshot-git
+  jenv
+  jq
+  lib32-libcanberra
+  lib32-libpipewire
+  lib32-libpulse
+  lib32-nvidia-utils
+  lib32-pipewire
+  libcanberra
+  libcec
+  libheif
+  libpipewire
+  libpulse
+  librsvg
+  libspng
+  libwebp
+  libwireplumber
+  mako
+  mpd
+  mpd-mpris
+  mpvpaper
+  neovim
+  network-manager-applet
+  nvidia-prime
+  nvidia-settings
+  nvidia-utils
+  nvtop
+  nwg-look
+  obsidian
+  oh-my-posh-bin
+  perl-image-exiftool
+  pipewire
+  pipewire-alsa
+  pipewire-audio
+  pipewire-jack
+  pipewire-pulse
+  pipewire-zeroconf
+  playerctl
+  pulseaudio-qt
+  pwvucontrol
+  python-pywal16
+  ripgrep
+  seatd
+  socat
+  speech-dispatcher
+  systemd
+  tesseract
+  tesseract-data-eng
+  ttf-jetbrains-mono-nerd
+  udiskie
+  unzip
+  upscayl-ncnn
+  waybar-git
+  wayland-pipewire-idle-inhibit
+  waypaper-git
+  wireplumber
+  xdg-desktop-portal-kde
+  xdg-terminal-exec
+  xdg-user-dirs
   zoxide
+)
+# overwrite because sometimes hyprland fails to install and complains that it can't update manpages
+paru --needed --sudoloop --noconfirm --overwrite "*" -S "${hyprland_pkgs[@]}"
 
 echo "installing gaming dependencies"
 # no chroot for this, overwrite what's there
