@@ -8,7 +8,7 @@ declare -A bad_mondescs
 bad_mondescs=(
   'Samsung Electric Company SAMSUNG 0x01000E00' true
 )
-hyprconf_path="${XDG_CONFIG_HOME:-$HOME/.config}/hypr/hyprland.conf"
+hyprconf_path="${XDG_CONFIG_HOME:-$HOME/.config}/hypr/monitors/base-lotus.conf"
 echo "using config at $hyprconf_path"
 
 handle() {
@@ -35,6 +35,7 @@ handle() {
         echo "detected bad monitor $mondesc@$monport"
         echo "setting tearing to $tearing_value"
         sed -Ei --follow-symlinks "s/(\\s*allow_tearing\\s*=\\s*)(true|false)/\\1$tearing_value/" "$hyprconf_path"
+        sed -Ei --follow-symlinks "s/(\\s*no_hardware_cursors\\s*=\\s*)(true|false)/\\1$tearing_value/" "$hyprconf_path"
       else
         echo "skipping"
       fi
