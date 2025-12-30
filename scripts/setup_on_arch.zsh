@@ -162,5 +162,30 @@ systemctl enable --user \
   mpd-mpris.service \
   playerctld.service \
   waybar.service
+set -e
 
-echo "Installation complete! Make sure you double-check pacman and reboot when you're done! Also, activate the proper monitor/uwsm configs!"
+echo 'beginning post-install setup'
+monitor_conf_path="$dotfiles_path/hyprland/hypr/monitors"
+declare -a selected_confs fzf_args
+fzf_args=(--delimiter '/' --with-nth -1 --accept-nth -1)
+monitor_confs=( $monitor_conf_path/^base-*(.) )
+selected_confs+=( $(print ${(j.\n.)monitor_confs} | fzf --multi "${fzf_args[@]}" --prompt 'Activate monitors > ') )
+primary_conf="$(print ${(j.\n.)selected_confs} | fzf --prompt 'Primary monitor > ')"
+base_monitor_confs=( $monitor_conf_path/base*.conf )
+selected_confs+=( $(print ${(j.\n.)base_monitor_confs} | fzf "${fzf_args[@]}" --prompt 'Select your base config > ') )
+mon_path="$dotfiles_path/hyprland/scripts/mon.zsh"
+for conf_name in ${selected_confs[@]}; do
+  $mon_path enable "$conf_name"
+done
+$mon_path primary "$primary_conf"
+
+uwsm_extras_path="$dotfiles_path/hyprland/uwsm/extras"
+declare -a selected_extras
+uwsm_extra_confs=( $uwsm_extras_path/*~.gitignore(.) )
+selected_extras=(  $(print ${(j.\n.)uwsm_extra_confs} | fzf --multi "${fzf_args[@]}" --prompt 'Enable UWSM extras? > ')  )
+echo $selected_extras
+for conf_name in "${selected_extras[@]}"; do
+  ln -s ../$conf_name "$uwsm_extras_path/active/$conf_name"
+done
+
+echo "Installation complete! Make sure you double-check pacman and reboot when you're done!"
