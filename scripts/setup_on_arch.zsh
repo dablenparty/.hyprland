@@ -36,6 +36,7 @@ fi
 
 echo "cloning dotfiles"
 paru --needed --noconfirm -S \
+  7zip \
   base-devel \
   boxunbox \
   cmake \
@@ -119,6 +120,7 @@ paru --needed --sudoloop --noconfirm -S \
   nvidia-settings \
   nvidia-utils \
   nvtop \
+  nwg-look \
   obsidian \
   oh-my-posh-bin \
   perl-image-exiftool \
