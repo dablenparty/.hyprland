@@ -94,6 +94,7 @@ hyprland_pkgs=(
   dysk
   eza
   fd
+  ffmpeg
   firefox
   fnm
   foot
@@ -121,6 +122,7 @@ hyprland_pkgs=(
   libwebp
   libwireplumber
   mako
+  mediainfo
   mpd
   mpd-mpris
   mpvpaper
@@ -148,6 +150,7 @@ hyprland_pkgs=(
   seatd
   socat
   speech-dispatcher
+  spotify-launcher
   systemd
   tesseract
   tesseract-data-eng
@@ -179,6 +182,7 @@ gaming_packages=(
   lib32-vkd3d
   lutris
   mangohud
+  prismlauncher
   protonup-qt
   vk-hdr-layer-kwin6-git
   vkd3d
