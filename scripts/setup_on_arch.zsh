@@ -176,6 +176,7 @@ paru --needed --sudoloop --nochroot --noconfirm --useask -S dot-hyprland/glfw-wa
 # don't install Proton GE from AUR; the maintainers don't update it quick enough for me and it
 # has issues sometimes
 gaming_packages=(
+  dxvk-nvapi-vkreflex-layer
   gamescope
   lib32-mangohud
   lib32-sdl2
