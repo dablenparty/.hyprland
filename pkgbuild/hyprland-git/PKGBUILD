@@ -1,6 +1,6 @@
 _pkgname=hyprland
 pkgname="${_pkgname}-git"
-pkgver=0.52.0.r138.ga5b7c91
+pkgver=0.53.0.r139.g661314e
 pkgrel=1
 pkgdesc="Hyprland provides the latest Wayland features, dynamic tiling, all the eyecandy, powerful plugins and much more, while still being lightweight and responsive"
 arch=(x86_64)
@@ -66,8 +66,6 @@ makedepends=(
   git
   glaze
   hyprland-protocols-git
-  meson
-  ninja
   xorgproto
 )
 optdepends=(
