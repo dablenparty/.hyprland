@@ -4,7 +4,7 @@ _mon_bare_cmd() {
   # WARN: _files respects 'list-dirs-first' which recurses into the active dir and adds it to the
   # list despite it being ignored; therefore, use _path_files
   _arguments \
-    '1:conf file:_path_files -W "${XDG_CONFIG_HOME:-$HOME/.config}/hypr/monitors" -g "*.conf" -F "active/*"'
+    '1:conf file:_path_files -W "${XDG_CONFIG_HOME:-$HOME/.config}/hypr/monitors" -g "*.lua" -F "active.lua"'
 }
 
 _mon_rotate_cmd() {
