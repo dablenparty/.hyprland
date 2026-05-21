@@ -35,7 +35,8 @@ for file in $hyprconf_dir/monitors/*.lua; do
 done
 
 cmd="$1"
-monitor="${2%.lua}"
+# remove file extension (normalize to name)
+monitor="${2%.*}"
 
 case "$cmd" in
   enable)
