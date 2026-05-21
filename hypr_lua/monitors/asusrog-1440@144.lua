@@ -1,0 +1,7 @@
+hl.monitor({
+	output = "desc:ASUSTek COMPUTER INC ROG PG278QR #ASORhydAMyjd",
+	mode = "2560x1440@144.00",
+	position = "auto-center-left",
+	scale = "1.00",
+	transform = 0,
+})

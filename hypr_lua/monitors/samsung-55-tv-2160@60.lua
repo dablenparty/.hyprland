@@ -1,0 +1,12 @@
+hl.monitor({
+	output = "desc:Samsung Electric Company SAMSUNG 0x01000E00",
+	mode = "3840x2160@59.94",
+	position = "auto-right",
+	scale = "1.00",
+	transform = 0,
+	bitdepth = 10,
+	vrr = 0,
+	cm = "dcip3",
+	supports_wide_color = 1,
+	supports_hdr = 1,
+})

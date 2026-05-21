@@ -1,0 +1,6 @@
+hl.on("hyprland.start", function()
+	hl.exec_cmd("uwsm app -- blueman-applet --syslog")
+	hl.exec_cmd("uwsm app -- nm-applet")
+	hl.exec_cmd("uwsm app -- handle_monitor_connect.sh")
+	hl.exec_cmd("uwsm app -- udiskie --tray")
+end)

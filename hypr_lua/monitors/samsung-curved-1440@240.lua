@@ -1,0 +1,11 @@
+hl.monitor({
+	output = "desc:Samsung Electric Company LC27G7xT H4ZTB01524",
+	mode = "2560x1440@239.96",
+	position = "0x0",
+	scale = "1.00",
+	transform = 0,
+	bitdepth = 10,
+	cm = "dcip3",
+	supports_wide_color = 1,
+	supports_hdr = 1,
+})
