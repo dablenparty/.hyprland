@@ -5,7 +5,7 @@ local file_manager = terminal .. "-e yazi"
 local music_player = terminal .. "-e rmpc"
 local browser = "firefox"
 
-local reset = "hyprctl dispatch submap reset"
+local reset = "hyprctl dispatch 'hl.dsp.submap(\"reset\")'"
 local timeout = 3.0
 local submap_timeout_cmd = string.format("uwsm app -- sleep %.2f && %s", timeout, reset)
 -- 1-sec timeout for submap
