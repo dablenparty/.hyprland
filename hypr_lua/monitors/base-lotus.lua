@@ -30,20 +30,20 @@ hl.config({
 hl.workspace_rule({
 	workspace = "1",
 
-	monitor = "DP-2",
+	monitor = "desc:ASUSTek COMPUTER INC ROG PG278QR #ASORhydAMyjd",
 	default = true,
 })
 
 hl.workspace_rule({
 	workspace = "2",
 
-	monitor = "DP-3",
+	monitor = "desc:Samsung Electric Company LC27G7xT H4ZTB01524",
 	default = true,
 })
 
 hl.workspace_rule({
 	workspace = "3",
 
-	monitor = "HDMI-A-2",
+	monitor = "desc:Samsung Electric Company SAMSUNG 0x01000E00",
 	default = true,
 })
