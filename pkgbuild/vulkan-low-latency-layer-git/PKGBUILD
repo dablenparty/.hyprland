@@ -1,0 +1,49 @@
+_pkgname=vulkan-low-latency-layer
+pkgname="$_pkgname-git"
+pkgver=0.2.0.r0.g4e7fe12
+pkgrel=1
+pkgdesc='Implicit Vulkan layer that reduces click-to-photon latency for AMD and NVidia.'
+url='https://github.com/Korthos-Software/low_latency_layer'
+license=('MIT')
+depends=(
+  libstdc++
+  glibc
+  libgcc
+)
+makedepends=(
+  cmake
+  git
+  vulkan-headers
+  vulkan-utility-libraries
+)
+arch=('x86_64')
+sha256sums=('SKIP')
+source=("$_pkgname::git+$url.git")
+
+pkgver() {
+  cd "$srcdir/$_pkgname" || exit
+
+  printf "%s" "${ git describe --long --tags --abbrev=7 | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'; }"
+}
+
+prepare() {
+  cd "$srcdir/$_pkgname" || exit
+
+  cmake -S . -B build \
+	  -DCMAKE_BUILD_TYPE=Release \
+	  -DCMAKE_CXX_FLAGS_RELEASE='-DNDEBUG' \
+	  -DCMAKE_INSTALL_PREFIX=/usr
+}
+
+build() {
+  cd "$srcdir/$_pkgname" || exit
+
+  cmake --build build
+}
+
+package() {
+  cd "$srcdir/$_pkgname" || exit
+
+  DESTDIR="$pkgdir/" cmake --install build
+  install -Dm644 "$srcdir/$_pkgname/LICENSE" -t "$pkgdir/usr/share/licenses/$pkgname"
+}
