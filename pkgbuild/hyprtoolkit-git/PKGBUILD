@@ -1,0 +1,70 @@
+# Modified from: https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=hyprtoolkit-git
+
+_pkgname="hyprtoolkit"
+pkgname="$_pkgname-git"
+pkgver=0.5.4.r27.ga034284
+pkgrel=1
+pkgdesc="A modern C++ Wayland-native GUI toolkit"
+arch=('x86_64' 'aarch64')
+url="https://github.com/hyprwm/$_pkgname"
+license=('BSD-3-Clause')
+
+depends=(
+  aquamarine-git libaquamarine.so
+  cairo
+  egl-gbm
+  iniparser
+  hyprgraphics-git libhyprgraphics.so
+  hyprlang-git libhyprlang.so
+  hyprutils-git libhyprutils.so
+  hyprwayland-scanner-git
+  libdrm
+  libxkbcommon libxkbcommon.so
+  pango libpango-1.0.so libpangocairo-1.0.so
+  pixman libpixman-1.so
+  wayland libwayland-client.so
+  wayland-protocols
+)
+makedepends=(
+  abseil-cpp
+  cmake
+  git
+  ninja
+)
+provides=("$_pkgname=${pkgver%%.r*}" "lib$_pkgname.so")
+conflicts=("$_pkgname")
+source=("git+$url.git")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_pkgname" || exit
+
+  printf "%s" "${ git describe --long --tags --abbrev=7 | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'; }"
+}
+
+prepare() {
+  cd "$srcdir/$_pkgname" || exit
+
+  local cmake_options=(
+    -B build
+    -S .
+    -G Ninja
+    -W no-dev
+    -D CMAKE_BUILD_TYPE=Release
+    -D CMAKE_INSTALL_PREFIX=/usr
+  )
+  cmake "${cmake_options[@]}"
+}
+
+build() {
+  cd "$srcdir/$_pkgname" || exit
+
+  cmake --build build
+}
+
+package() {
+  cd "$srcdir/$_pkgname" || exit
+
+  DESTDIR="$pkgdir" cmake --install build
+  install -Dm644 "$srcdir/$_pkgname/LICENSE" -t "$pkgdir/usr/share/licenses/$pkgname/"
+}
