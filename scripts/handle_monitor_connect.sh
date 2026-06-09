@@ -2,8 +2,8 @@
 
 handle() {
   case $1 in monitoradded*)
-    hyprctl dispatch moveworkspacetomonitor "1 DP-2"
-    hyprctl dispatch moveworkspacetomonitor "2 DP-3"
+    hyprctl dispatch 'hl.dsp.workspace.move({ workspace = 1, monitor = "desc:ASUSTek COMPUTER INC ROG PG278QR #ASORhydAMyjd" })'
+    hyprctl dispatch 'hl.dsp.workspace.move({ workspace = 2, monitor = "desc:Samsung Electric Company LC27G7xT H4ZTB01524" })'
     ;;
   esac
 }
