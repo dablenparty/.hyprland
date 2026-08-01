@@ -25,7 +25,7 @@ hl.config({
 		-- tail -f $XDG_RUNTIME_DIR/hypr/$(ls -t $XDG_RUNTIME_DIR/hypr/ | head -n 1)/hyprland.log
 		-- OR
 		-- journalctl --user -u wayland-wm@hyprland.desktop.service
-		disable_logs = false,
+		-- disable_logs = false,
 	},
 
 	misc = {
