@@ -69,6 +69,7 @@ end)
 hl.bind(main_mod .. " + B", hl.dsp.exec_cmd(string.format("uwsm app -- %s", browser)))
 -- NOTE: Firefox specific
 hl.bind(main_mod .. " + SHIFT + B", hl.dsp.exec_cmd(string.format("uwsm app -- %s --private-window", browser)))
+hl.bind(main_mod .. " + D", hl.dsp.exec_cmd("uwsm app -- discord"))
 hl.bind(main_mod .. " + Y", hl.dsp.exec_cmd(string.format("uwsm app -- %s", file_manager)))
 hl.bind(main_mod .. " + F", hl.dsp.window.fullscreen())
 -- don't use "exit" dispatcher with uwsm
