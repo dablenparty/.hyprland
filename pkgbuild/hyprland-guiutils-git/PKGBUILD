@@ -1,0 +1,64 @@
+# Modified from: https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=hyprland-guiutils-git
+
+_pkgname="hyprland-guiutils"
+pkgname="$_pkgname-git"
+pkgver=0.2.2.r0.ga16ad89
+pkgrel=1
+pkgdesc="Hyprland GUI utilities (successor to hyprland-qtutils)"
+arch=('x86_64' 'aarch64')
+url="https://github.com/hyprwm/$_pkgname"
+license=('BSD-3-Clause')
+
+depends=(
+  cairo
+  hyprlang-git libhyprlang.so
+  hyprtoolkit-git libhyprtoolkit.so
+  hyprutils-git libhyprutils.so
+  libdrm
+  libxkbcommon libxkbcommon.so
+  pango libpango-1.0.so libpangocairo-1.0.so
+  pixman libpixman-1.so
+)
+makedepends=(
+  abseil-cpp
+  cmake
+  git
+  ninja
+)
+provides=("$_pkgname=${pkgver%%.r*}" "lib$_pkgname.so")
+conflicts=("$_pkgname" "hyprland-qtutils-git")
+source=("git+$url.git")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_pkgname" || exit
+
+  printf "%s" "${ git describe --long --tags --abbrev=7 | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'; }"
+}
+
+prepare() {
+  cd "$srcdir/$_pkgname" || exit
+
+  local cmake_options=(
+    -B build
+    -S .
+    -G Ninja
+    -W no-dev
+    -D CMAKE_BUILD_TYPE=None
+    -D CMAKE_INSTALL_PREFIX=/usr
+  )
+  cmake "${cmake_options[@]}"
+}
+
+build() {
+  cd "$srcdir/$_pkgname" || exit
+
+  cmake --build build
+}
+
+package() {
+  cd "$srcdir/$_pkgname" || exit
+
+  DESTDIR="$pkgdir" cmake --install build
+  install -Dm644 "$srcdir/$_pkgname/LICENSE" -t "$pkgdir/usr/share/licenses/$pkgname/"
+}
