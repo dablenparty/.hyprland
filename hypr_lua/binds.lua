@@ -3,7 +3,7 @@ local main_mod = "SUPER"
 local terminal = "foot"
 local file_manager = terminal .. "-e yazi"
 local music_player = terminal .. "-e rmpc"
-local browser = "firefox"
+local browser = "zen-browser"
 
 local reset = "hyprctl dispatch 'hl.dsp.submap(\"reset\")'"
 local timeout = 3.0
