@@ -1,6 +1,6 @@
 _pkgname=hyprland
 pkgname="${_pkgname}-git"
-pkgver=0.53.0.r139.g661314e
+pkgver=0.56.0.r59.g3906d66
 pkgrel=1
 pkgdesc="Hyprland provides the latest Wayland features, dynamic tiling, all the eyecandy, powerful plugins and much more, while still being lightweight and responsive"
 arch=(x86_64)
@@ -9,6 +9,7 @@ license=('BSD-3')
 depends=(
   aquamarine-git libaquamarine.so
   cairo
+  cpio
   egl-wayland
   gcc-libs
   glib2 libgio-2.0.so libgobject-2.0.so
@@ -34,6 +35,7 @@ depends=(
   libxfixes
   libxkbcommon libxkbcommon.so
   libxrender
+  lua
   mesa
   muparser
   opengl-driver
@@ -63,9 +65,12 @@ depends=(
 )
 makedepends=(
   cmake
+  gcc
   git
   glaze
   hyprland-protocols-git
+  meson
+  ninja
   xorgproto
 )
 optdepends=(
