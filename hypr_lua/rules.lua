@@ -170,9 +170,20 @@ hl.window_rule({
 })
 
 hl.window_rule({
+	name = "discord",
+	match = { class = "discord", initial_title = "Discord" },
+
+	-- TODO: multiple special workspaces
+	workspace = "special:music",
+	-- disallow focus stealing
+	suppress_event = "activate,activatefocus",
+})
+
+hl.window_rule({
 	match = { initial_class = "makemkv" },
 	idle_inhibit = "always",
 })
+
 hl.window_rule({
 	name = "makemkv-popup",
 	match = {
