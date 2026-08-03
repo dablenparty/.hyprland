@@ -1,12 +1,13 @@
 _pkgname="aquamarine"
 pkgname="$_pkgname-git"
-pkgver=0.10.0.r2.ga43bedc
+pkgver=0.14.0.r4.gcf45416
 pkgrel=1
 pkgdesc="Aquamarine is a very light linux rendering backend library"
 arch=('x86_64' 'aarch64')
 url="https://github.com/hyprwm/$_pkgname"
 license=('BSD-3-Clause')
 depends=(
+  egl-gbm
   gcc-libs
   glibc
   hyprutils-git libhyprutils.so
