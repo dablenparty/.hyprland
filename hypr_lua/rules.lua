@@ -1,7 +1,8 @@
+local utils = require("utils")
 local browser_class = "^([Ff]irefox)$"
 local gaming_workspace = 10
 local steam_app_class = "^steam_app(_\\d+|default)?$"
-local terminal_class = "^(\\w+\\.)*foot$"
+local minecraft_initial_title = "^(Minecraft|Tekxit|Craftoria).*$"
 
 --#region Workspaces
 hl.workspace_rule({
@@ -103,7 +104,7 @@ hl.window_rule({
 })
 
 hl.window_rule({
-	match = { initial_title = "^(Minecraft|Tekxit).*$" },
+	match = { initial_title = minecraft_initial_title },
 	tag = "+video-game",
 })
 
@@ -123,23 +124,31 @@ hl.window_rule({
 	tag = "-video-game",
 })
 
+-- TODO: test this
+-- hl.window_rule({
+-- 	match = {
+-- 		tag = "video-game",
+-- 		modal = true
+-- 	},
+-- 	tag = "-video-game"
+-- })
+
 hl.window_rule({
 	name = "video-games",
 	match = { tag = "video-game" },
 	workspace = tostring(gaming_workspace),
 
-	immediate = true,
-
 	border_size = 0,
 	-- even if they're tagged, they STILL might not have the right content type
 	content = "game",
+	-- do not let the pointer leave the window
+	confine_pointer = true,
 	decorate = false,
 	float = true,
 	-- truly opaque; ignores window alpha channel
 	force_rgbx = true,
 	fullscreen = true,
-	-- using 2 2 doesn't work for some games *cough* ELDEN RING
-	-- fullscreen_state = 3 3
+	fullscreen_state = "3 3",
 	idle_inhibit = "always",
 	no_anim = true,
 	no_blur = true,
@@ -152,6 +161,57 @@ hl.window_rule({
 	-- fixes games that fail to maximize *cough* ELDEN RING
 	sync_fullscreen = true,
 })
+
+hl.window_rule({
+	match = { initial_title = minecraft_initial_title },
+	immediate = true,
+	tag = "+tearing"
+})
+
+hl.window_rule({
+	match = { class = "cs2" },
+	immediate = true,
+	tag = "+tearing"
+})
+
+-- NOTE: this is necessary because of a kernel limitation: https://github.com/hyprwm/Hyprland/pull/10020#issuecomment-3094396984
+hl.on("window.open", function(win)
+	-- enable tearing if there's a tearable window
+	if utils.lcontains(win.tags, "tearing*") then
+		hl.notification.create({ text = win.title .. " asks for tearing!", timeout = 4000 })
+		hl.config({
+			general = {
+				allow_tearing = true
+			},
+			render = {
+				async_commit = false,
+				direct_scanout = 0
+			},
+			cursor = { no_hardware_cursors = 1 }
+		})
+	end
+end)
+
+hl.on("window.close", function(win)
+	-- disable tearing when all tearable windows close
+	if utils.lcontains(win.tags, "tearing*") then
+		local windows = hl.get_windows({ tag = "tearing*" })
+		-- the window has not been destroyed yet
+		if #windows == 1 then
+			hl.notification.create({ text = "No more windows ask for tearing!", timeout = 4000 })
+			hl.config({
+				general = {
+					allow_tearing = false
+				},
+				render = {
+					async_commit = true,
+					direct_scanout = 2
+				},
+				cursor = { no_hardware_cursors = 0 }
+			})
+		end
+	end
+end)
 --#endregion
 
 --#region Music/Video players

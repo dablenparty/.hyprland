@@ -16,6 +16,8 @@ hl.config({
 	},
 
 	render = {
+		-- these are dynamically changed, see: rules.lua
+		async_commit = true,
 		direct_scanout = 2,
 		-- auto-set to 1 (hdr) or 2 (hdredid)
 		cm_auto_hdr = 2,

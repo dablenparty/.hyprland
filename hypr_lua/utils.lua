@@ -15,4 +15,24 @@ M.load_pywal_theme = function()
 	end
 end
 
+M.lcontains = function(list, target, key)
+	local compare = nil
+	if key then
+		compare = function(l, r)
+			return l[key] == r[key]
+		end
+	else
+		compare = function(l, r)
+			return l == r
+		end
+	end
+	for i, item in ipairs(list) do
+		if compare(item, target) then
+			return i, item
+		end
+	end
+
+	return nil, nil
+end
+
 return M
