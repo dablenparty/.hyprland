@@ -1,6 +1,6 @@
 _pkgname=hyprland
 pkgname="${_pkgname}-git"
-pkgver=0.56.0.r59.g3906d66
+pkgver=0.56.0.r190.g1b85c7a
 pkgrel=1
 pkgdesc="Hyprland provides the latest Wayland features, dynamic tiling, all the eyecandy, powerful plugins and much more, while still being lightweight and responsive"
 arch=(x86_64)
@@ -23,6 +23,7 @@ depends=(
   # Required for AQ & some hypr* packages
   hyprwayland-scanner-git
   hyprwire-git libhyprwire.so
+  libcanberra
   libdisplay-info libdisplay-info.so
   libdrm
   libglvnd libEGL.so libGLESv2.so libOpenGL.so
