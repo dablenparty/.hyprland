@@ -36,3 +36,23 @@ hl.device({
 	sensitivity = 0.05,
 	natural_scroll = true,
 })
+
+hl.device({
+	name = "dualsense-wireless-controller-touchpad",
+	enabled = false
+})
+
+hl.device({
+	name = "wireless-controller-touchpad",
+	enabled = false
+})
+
+hl.device({
+	name = "sony-interactive-entertainment-dualsense-edge-wireless-controller-touchpad",
+	enabled = false
+})
+
+hl.device({
+	name = "dualsense-edge-wireless-controller-touchpad",
+	enabled = false
+})
