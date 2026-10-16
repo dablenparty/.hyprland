@@ -1,0 +1,73 @@
+# Maintainer: Fabio 'Lolix' Loli <fabio.loli@disroot.org> -> https://github.com/FabioLolix
+# Contributor: txtsd <aur.archlinux@ihavea.quest>
+# Contributor: Marcel Korpel <marcel[dot]korpel[at]gmail>
+# Contributor: Olaf Bauer <hydro@freenet.de>
+# Contributor: Hunter Davenport
+
+pkgname=makemkv
+pkgver=1.18.4
+pkgrel=2
+pkgdesc="DVD and Blu-ray to MKV converter"
+arch=(x86_64 i686 aarch64)
+url="https://www.makemkv.com"
+license=('LicenseRef-GuinpinSoft-inc-EULA' LGPL-2.1-or-later)
+depends=(qt5-base ffmpeg libavcodec.so libaacs)
+optdepends=('java-runtime: bdjava https://www.makemkv.com/bdjava/')
+install=makemkv.install
+source=(
+  # "${pkgname}-bin-${pkgver}.tar.gz::https://mega.nz/file/TqIRHaia#X0GGZXUuHzjqzZnXEp2SRhrPF9AOHSmYXCesUIlrC_4"
+  #         "${pkgname}-oss-${pkgver}.tar.gz::https://mega.nz/file/WnJiiYqJ#mi1FiYGAQ4HfKnCt6u-I2OP6_8-Kj10YhIFngdwYEiM"
+  https://archive.org/download/${pkgname}-v${pkgver}/${pkgname}-bin-${pkgver}.tar.gz
+  https://archive.org/download/${pkgname}-v${pkgver}/${pkgname}-oss-${pkgver}.tar.gz
+  ffmpeg9.patch
+  makemkv.1
+  makemkvcon.1
+)
+sha256sums=('3e086043301377c4927407c15ca2b80b6452a12f06992668837e7dab0764290d'
+  'c7f14efc38913321e4365c023369bbf1fb1bcf0ab7bdbd5ff0edcfbd4b5c72a3'
+  'd35ae9e841ac43297e17a08d8819b339c5058bbdfc150fab508a442365756929'
+  '5573b2e4bade10d8cd258a7c235eb46f66ef8c8c97e5d5eb090c38fa0f94389b'
+  'f12c0facf2f0071a9f728b138986f0a4c2b4ff6ace2dfb2e96364e215e9fda6f')
+
+prepare() {
+  # makemkv is double compressed, so we need to compare the inner checksums, too. The thing is, the
+  # AUR and other users don't have to do this. Idk how or why because I copied their repo's, PKGBUILD,
+  # patches, sources, and all, and I ALWAYS have to uncompress twice while they don't. It doesn't
+  # make any FUCKING sense to me
+  local bin_sum='cee56de0baa5531abed16bd862742d308d772b4ab4dae16ee865bf74f04a1608'
+  local bin_tar="${pkgname}-bin-${pkgver}.tar"
+  echo "checking checksum for $bin_tar"
+  echo "$bin_sum  $bin_tar" | sha256sum -c -
+  tar -xf "$bin_tar"
+
+  local oss_sum='8590063648d42ec2a958b74573d7022f0f4c334e4e4fe7dd53b70c6e748ba453'
+  local oss_tar="${pkgname}-oss-${pkgver}.tar"
+  echo "checking checksum for $oss_tar"
+  echo "$oss_sum  $oss_tar" | sha256sum -c -
+  tar -xf "$oss_tar"
+
+  cd "${pkgname}-oss-${pkgver}" || exit
+  patch -Np1 <../ffmpeg9.patch
+}
+
+build() {
+  cd "${srcdir}/${pkgname}-oss-${pkgver}" || exit
+  ./configure --prefix=/usr
+  make
+}
+
+package() {
+  cd "${srcdir}/${pkgname}-oss-${pkgver}" || exit
+  make DESTDIR="${pkgdir}" install
+
+  cd "${srcdir}/${pkgname}-bin-${pkgver}" || exit
+  install -d tmp
+  echo accepted >tmp/eula_accepted
+  make DESTDIR="${pkgdir}" install
+
+  install -Dm 644 src/eula_en_linux.txt "${pkgdir}/usr/share/licenses/${pkgname}/eula_en_linux.txt"
+
+  cd "${srcdir}/" || exit
+  install -d "${pkgdir}/usr/share/man/man1/"
+  install -m 644 -t "${pkgdir}/usr/share/man/man1/" makemkv.1 makemkvcon.1
+}
