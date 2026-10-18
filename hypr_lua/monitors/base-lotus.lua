@@ -46,6 +46,13 @@ hl.workspace_rule({
 hl.workspace_rule({
 	workspace = "3",
 
+	monitor = "desc:Samsung Electric Company C49HG9x HNKN907598",
+	default = true,
+})
+
+hl.workspace_rule({
+	workspace = "4",
+
 	monitor = "desc:Samsung Electric Company SAMSUNG 0x01000E00",
 	default = true,
 })
